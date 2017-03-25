@@ -1,0 +1,84 @@
+script mopsc_monsterinfohud (void)
+{
+	int prev_type = -1;
+	int prev_hp = -1;
+	
+	while (PlayerInGame(PlayerNumber()) && IsAlive() && IsPuppetmaster())
+	{
+		if (IsPossessed())
+		{
+			if (prev_type != -1)
+			{
+				HudMessage(s:""; HUDMSG_PLAIN, HID_MONSTERINFO, 0, 0, 0, 0, 0);
+				prev_type = -1;
+				prev_hp = -1;
+			}
+			
+			Delay(1);
+			continue;
+		}
+		
+		int player = PlayerNumber();
+		SetActivatorToTarget(0);
+		if (PlayerNumber() != -1 || PlayerNumber() == player)
+		{
+			SetActivator(PlayerTid(player));
+			if (prev_type != -1)
+			{
+				HudMessage(s:""; HUDMSG_PLAIN, HID_MONSTERINFO, 0, 0, 0, 0, 0);
+				prev_type = -1;
+				prev_hp = -1;
+			}
+		
+			Delay(1);
+			continue;
+		}
+		
+		int type = IdentifyMonster(0);
+		int color = cond(MonsterIsLegendary(type), CR_BLUE, CR_RED);
+		str name = 0;
+		if (type == -1)
+		{
+			if (ClassifyActor(0) & ACTOR_MONSTER)
+			{
+				type = -2;
+				name = StrParam(s:"unknown monster (", s:ActivatorName(), s:")");
+			}
+			else
+			{
+				SetActivator(PlayerTid(player));
+				HudMessage(s:""; HUDMSG_PLAIN, HID_MONSTERINFO, 0, 0, 0, 0, 0);
+				prev_type = -1;
+				prev_hp = -1;
+				Delay(1);
+				continue;
+			}
+		}
+		else
+		{
+			name = MonsterName(type);
+		}
+		int hp = GetActorProperty(0, APROP_HEALTH);
+		
+		SetActivator(PlayerTid(player));
+		if (prev_hp != hp || prev_type != type)
+		{
+			SetHUDSize(640,480,0);
+			SetFont("SMALLFONT");
+			HUDMessage(
+				s:name,
+				s:"\n\n",
+				d:hp,
+				s:" hp";
+				HUDMSG_PLAIN, HID_MONSTERINFO, color, 640.0/2 + 0.4, (480.0/2)+100.0, 0
+			);
+			
+			prev_type = type;
+			prev_hp = hp;
+		}
+		
+		Delay(1);
+	}
+	
+	HudMessage(s:""; HUDMSG_PLAIN, HID_MONSTERINFO, 0, 0, 0, 0, 0);
+}

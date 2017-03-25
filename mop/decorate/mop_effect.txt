@@ -1,0 +1,56 @@
+// All actors prefixed in case a mod uses them
+Actor MOPEffect
+{
+	+CLIENTSIDEONLY
+	+FORCEXYBILLBOARD
+
+	Health 1
+	Radius 0
+	Height 0
+	Mass 0
+ 
+	+MISSILE
+	+NOGRAVITY
+	+NOTELEPORT
+	+NOINTERACTION
+	+NOCLIP
+	+NOBLOCKMAP
+	+DONTSPLASH
+
+	States
+	{
+	Spawn:
+		NULL A 0
+		Stop
+	Unseen:
+		NULL A 0
+		Stop
+	}
+}
+
+Actor MOPCollidingEffect : MOPEffect
+{
+	Radius 5
+	Height 10
+ 
+	-NOINTERACTION
+	-NOCLIP
+	-NOBLOCKMAP
+}
+
+Actor MOPFallingEffect : MOPEffect
+{
+	-NOGRAVITY
+}
+
+Actor MOPCollidingFallingEffect : MOPEffect
+{
+	Radius 5
+	Height 10
+	 
+	-NOINTERACTION
+	-NOCLIP
+	-NOBLOCKMAP
+ 
+	-NOGRAVITY
+}

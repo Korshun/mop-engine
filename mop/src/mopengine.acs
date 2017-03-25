@@ -1,0 +1,14 @@
+#library "mop"
+
+function void BeginCategory(str category) {}
+function void AddMonster(int power, str icon, str actorname, str name) {}
+function void AddSpawnedMonster(str icon, str actorname, str name) {}
+function void BossMonster(void) {}
+function void LegendaryMonster(void) {}
+function void TrueLegendaryMonster(void) {}
+function void FlyingMonster(void) {}
+function void EvadingMonster(int speed) {}
+function void AddMonsterItem(str actorname) {}
+function void MOPAddonClientside(int scriptnum) {}
+function void AddMonsterAttack(str name) {}
+function void AddMonsterUserVar(str name) {}

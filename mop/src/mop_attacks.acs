@@ -1,0 +1,30 @@
+function str AttackItem(int attack)
+{
+	return StrParam(s:"MOPAttack", d:attack + 1);
+}
+
+script mopsc_attackswitching (int monster)
+{
+	if (MonsterAttackCount(monster) <= 2)
+		terminate;
+	
+	int attack = 0;
+	while (IsPossessed())
+	{
+		int attack2 = attack;
+		if (KeyPressed(BT_ALTATTACK))
+			attack2++;
+		if (attack2 >= MonsterAttackCount(monster))
+				attack2 = 0;
+		
+		if (attack != attack2)
+		{
+			SetInventory(AttackItem(attack), 0);
+			SetInventory(AttackItem(attack2), 1);
+			print(d:attack2 + 1, s:". ", s:MonsterAttackName(MonsterAttack(monster, attack2)));
+			attack = attack2;
+		}
+		
+		Delay(1);
+	}
+}

@@ -1,0 +1,10 @@
+Actor MOPInteger : Inventory { Inventory.MaxAmount 0x7fffffff }
+Actor MOPBoolean : Inventory { Inventory.MaxAmount 1 }
+
+
+// files use mop_ prefix to avoid lump replacement conflicts
+#include "decorate/mop_scriptnumbers.txt"
+#include "decorate/mop_infoactor.txt"
+#include "decorate/mop_effect.txt"
+#include "decorate/mop_possessed.txt"
+#include "decorate/mop_puppetmaster.txt"

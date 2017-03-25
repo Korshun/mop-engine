@@ -1,0 +1,14 @@
+ClearTeams
+
+Team "Marines"
+{
+	TextColor "Green"
+	PlayerStartThingNumber 1
+}
+
+
+Team "Puppetmasters"
+{
+	TextColor "Red"
+	PlayerStartThingNumber 2
+}

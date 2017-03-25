@@ -1,0 +1,8 @@
+function void AutoconfigureServer(void)
+{
+	ConsoleCommand("sv_disallowsuicide 1");
+	ConsoleCommand("sv_forcealpha 1");
+	ConsoleCommand("compat_dont_stop_player_scripts_on_disconnect 1");
+	ConsoleCommand("compat_clientssendfullbuttoninfo 1");
+	ConsoleCommand("sv_nomonsters 0");
+}

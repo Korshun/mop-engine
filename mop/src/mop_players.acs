@@ -1,0 +1,108 @@
+#define P_SpawnX 0
+#define P_SpawnY 1
+#define P_SpawnZ 2
+#define P_SpawnAngle 3
+#define P_NUM_PROPERTIES 6
+
+
+int Players[MAX_PLAYERS][P_NUM_PROPERTIES];
+
+// Accessors
+function int PlayerTid(int player) { return TID_PLAYER + player; }
+function bool PlayerIsPossessed(int player) { return CheckActorInventory(PlayerTid(player), "MOPIsPossessed"); }
+
+function bool IsPossessed(void) { return CheckInventory("MOPIsPossessed"); }
+function bool IsMarine(void) { return PlayerTeam() == TEAM_MARINES; }
+function bool IsPuppetmaster(void) { return PlayerTeam() == TEAM_MOPS; }
+
+// Functions
+function void SetSpawnPoint(int player, int x, int y, int z, int angle)
+{
+	Players[player][P_SpawnX] = x;
+	Players[player][P_SpawnY] = y;
+	Players[player][P_SpawnZ] = z;
+	Players[player][P_SpawnAngle] = angle;
+}
+
+// Global accessors
+function int MarineCount(void)
+{
+	return TeamPlayerCount(TEAM_MARINES);
+}
+
+function int PuppetmasterCount(void)
+{
+	return TeamPlayerCount(TEAM_MOPS);
+}
+
+function int PossessedCount(void)
+{
+	int count = 0;
+	for (int player = 0; player < MAX_PLAYERS; player++)
+		if (PlayerInGame(player) && PlayerIsPossessed(player))
+			count++;
+	return count;
+}
+
+function int TotalMonsterCount(void)
+{
+	return GetLevelInfo(LEVELINFO_TOTAL_MONSTERS) + PossessedCount();
+}
+
+function int LivingMonsterCount(void)
+{
+	return TotalMonsterCount() - GetLevelInfo(LEVELINFO_KILLED_MONSTERS);
+}
+
+// Scripts
+script mopsc_enter ENTER
+{
+	InitPlayer(true);
+}
+
+script mopsc_respawn RESPAWN
+{
+	InitPlayer(false);
+}
+
+script mopsc_death DEATH
+{
+	if (IsMarine())
+	{
+		SetActivatorToTarget(0);
+		if (PlayerNumber() < 0 || PlayerTeam() == TEAM_MOPS)
+			MarineFragged();
+	}
+}
+
+script mopsc_spectate (int player) DISCONNECT
+{
+}
+
+function void InitPlayer(bool newplayer)
+{
+	int player = PlayerNumber();
+	Thing_ChangeTid(0, PlayerTid(player));
+	SetInventory("MOPIsMarine", IsMarine());
+
+	if (IsPuppetmaster())
+	{
+		SetPlayerProperty(0, true, PROP_FLY);
+		ACS_ExecuteAlways(mopsc_monsterinfohud, 0);
+		if (newplayer)
+		{			
+			SetSpawnPoint(player, GetActorX(0), GetActorY(0), GetActorZ(0),
+				GetActorAngle(0));
+		}
+		else
+		{
+			SetActorPosition(PlayerTid(player),
+				Players[player][P_SpawnX],
+				Players[player][P_SpawnY],
+				Players[player][P_SpawnZ],
+				false);
+				
+			SetActorAngle(PlayerTid(player), Players[player][P_SpawnAngle]);
+		}
+	}
+}

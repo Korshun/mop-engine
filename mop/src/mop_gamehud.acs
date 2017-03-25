@@ -1,0 +1,95 @@
+script mopsc_gamehud OPEN CLIENTSIDE
+{
+	int hid1 = NewHid();
+	int hid2 = NewHid();
+	int hid3 = NewHid();
+	int hid4 = NewHid();
+	int hidover1 = NewHid();
+	int hidover2 = NewHid();
+	int hidover3 = NewHid();
+	int hidover4 = NewHid();
+	int hidicon1 = NewHid();
+	int hidicon2 = NewHid();
+	int hidicon3 = NewHid();
+	int hidicon4 = NewHid();
+	int hidgain = NewHid();
+	int hidgainflash = NewHid();
+
+	int lives1 = GetActorSpeed(TID_LIVESCOUNT);
+	int lives2 = lives1;
+	int monsters1 = GetActorSpeed(TID_LIVINGMONSTERCOUNT);
+	int monsters2 = monsters1;
+	int lastgain = 0;
+	int lastgaintime = -1;
+
+	while (true)
+	{
+		lives2 = GetActorSpeed(TID_LIVESCOUNT);
+		monsters2 = GetActorSpeed(TID_LIVINGMONSTERCOUNT);
+		bool icons = GetCVar("mop_cl_icons");
+	
+		HudResetState();
+		HudSetStayTime(0.03);
+		HudSetTextColor(CR_YELLOW);
+		
+		HudSetPoint(230.0, 17.0);
+		if (icons) HudDrawImage(hidicon1, "MOPMARIN");
+		HudSetPoint(270.0, 20.0);
+		HudDrawText(hid1, StrAddInt("\cdMarines\c-: ", MarineCount()));
+		
+		HudSetPoint(230.0, 27.0);
+		if (icons) HudDrawImage(hidicon2, "MOPMOPS");
+		HudSetPoint(270.0, 23.0);
+		HudDrawText(hid2, StrAddInt("\cgMops\c-: ", PuppetmasterCount()));
+
+		HudSetPoint(340.0, 12.0);
+		if (icons) HudDrawImage(hidicon3, "MOPLIVES");
+		HudSetPoint(390.0, 20.0);
+		HudDrawText(hid3, StrAddInt("Lives: ", lives2));
+		
+		if (lives1 != lives2)
+		{
+			HudPushState();
+			HudSetDisappearTime(1.0);
+			HudSetTextColor(cond(lives2 > lives1, CR_GREEN, CR_RED));
+			HudDrawText(hidover3, StrAddInt("Lives: ", lives2));
+			HudPopState();
+		}
+		
+		HudSetPoint(340.0, 22.0);
+		if (icons) HudDrawImage(hidicon4, "MOPMONST");
+		HudSetPoint(390.0, 15.0);
+		HudDrawText(hid4, StrAddInt("Monsters: ", monsters2));
+		
+		if (monsters1 != monsters2)
+		{
+			HudPushState();
+			HudSetDisappearTime(1.0);
+			HudSetTextColor(cond(monsters2 > monsters1, CR_RED, CR_GREEN));
+			HudDrawText(hidover4, StrAddInt("Monsters: ", monsters2));
+			HudPopState();
+			monsters1 = monsters2;
+		}
+		
+		HudSetPoint(430.0, 15.0);
+		HudDrawText(hidgain, StrParam(s:"\cj(", d:GetActorSpeed(TID_LIFEGAIN) * 100 / 1.0, s:"%)"));
+		
+		if (lives2 > lives1)
+		{
+			lastgain += lives2 - lives1;
+			lastgaintime = Timer();
+
+			HudSetPoint(460.0, 15.0);
+			HudSetStayTime(0.5);
+			HudSetDisappearTime(1.0);
+			HudDrawText(hidgainflash, StrParam(s:"\cd+", d:lastgain));
+		}
+		
+		if (Timer() - lastgaintime > 60)
+			lastgain = 0;
+		
+		lives1 = lives2;
+		
+		Delay(1);
+	}
+}

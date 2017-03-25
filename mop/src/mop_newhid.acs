@@ -1,0 +1,9 @@
+int LastHid = -1;
+
+function int NewHid(void)
+{
+	if (IsClient() && LastHid == -1)
+		LastHid = INT_MAX;
+	
+	return LastHid--;
+}

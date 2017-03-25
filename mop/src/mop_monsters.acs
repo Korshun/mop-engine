@@ -1,0 +1,175 @@
+#define M_ActorName 0
+#define M_Name 1
+#define M_Power 2
+#define M_Tier 3
+#define M_EvadeSpeed 4
+#define M_Category 5
+#define M_IsFlying 6
+#define M_IsBoss 7
+#define M_ItemsBegin 8
+#define M_ItemsEnd 9
+#define M_AttacksBegin 10
+#define M_AttacksEnd 11
+#define M_Icon 12
+#define M_VarsBegin 13
+#define M_VarsEnd 14
+#define M_NUM_PROPERTIES 15
+
+#define MI_ActorName 0
+#define MI_NUM_PROPERTIES 1
+
+#define MV_Name 0
+#define MV_NUM_PROPERTIES 1
+
+#define MA_Name 0
+#define MA_NUM_PROPERTIES 1
+
+#define TIER_NORMAL 0
+#define TIER_LEGENDARY 1
+
+#define MAX_MONSTERS 500
+#define MAX_MONSTER_ITEMS 100
+#define MAX_MONSTER_VARS 100
+#define MAX_MONSTER_ATTACKS 500
+
+int Monsters[MAX_MONSTERS][M_NUM_PROPERTIES];
+int NumMonsters = 0;
+int CurrentCategory = "";
+
+int MonsterItems[MAX_MONSTER_ITEMS][MI_NUM_PROPERTIES];
+int NumMonsterItems = 0;
+
+int MonsterVars[MAX_MONSTER_ITEMS][MV_NUM_PROPERTIES];
+int NumMonsterVars = 0;
+
+int MonsterAttacks[MAX_MONSTER_ATTACKS][MA_NUM_PROPERTIES];
+int NumMonsterAttacks = 0;
+
+function void BeginCategory(str category)
+{
+	CurrentCategory = category;
+}
+
+function void AddMonster(int power, str icon, str actorname, str name)
+{
+	if (NumMonsters >= MAX_MONSTERS)
+		LimitError("MAX_MONSTERS");
+
+	Monsters[NumMonsters][M_ActorName] = actorname;
+	Monsters[NumMonsters][M_Name] = name;
+	Monsters[NumMonsters][M_Power] = power;
+	Monsters[NumMonsters][M_Tier] = TIER_NORMAL;
+	Monsters[NumMonsters][M_EvadeSpeed] = 0;
+	Monsters[NumMonsters][M_Category] = CurrentCategory;
+	Monsters[NumMonsters][M_IsFlying] = false;
+	Monsters[NumMonsters][M_IsBoss] = false;
+	Monsters[NumMonsters][M_Icon] = icon;
+	Monsters[NumMonsters][M_ItemsBegin] = NumMonsterItems;
+	Monsters[NumMonsters][M_ItemsEnd] = NumMonsterItems;
+	Monsters[NumMonsters][M_AttacksBegin] = NumMonsterAttacks;
+	Monsters[NumMonsters][M_AttacksEnd] = NumMonsterAttacks;
+	Monsters[NumMonsters][M_VarsBegin] = NumMonsterVars;
+	Monsters[NumMonsters][M_VarsEnd] = NumMonsterVars;
+	NumMonsters++;
+}
+
+function void AddSpawnedMonster(str icon, str actorname, str name)
+{
+	AddMonster(0, icon, actorname, name);
+}
+
+function void AddMonsterItem(str actorname)
+{
+	if (NumMonsterItems >= MAX_MONSTER_ITEMS)
+		LimitError("MAX_MONSTER_ITEMS");
+
+	MonsterItems[NumMonsterItems][MI_ActorName] = actorname;
+	Monsters[NumMonsters - 1][M_ItemsEnd]++;
+	NumMonsterItems++;
+}
+
+function void AddMonsterUserVar(str name)
+{
+	if (NumMonsterItems >= MAX_MONSTER_VARS)
+		LimitError("MAX_MONSTER_VARS");
+
+	MonsterVars[NumMonsterVars][MV_Name] = name;
+	Monsters[NumMonsters - 1][M_VarsEnd]++;
+	NumMonsterVars++;
+}
+
+
+function void AddMonsterAttack(str name)
+{
+	if (NumMonsterAttacks >= MAX_MONSTER_ATTACKS)
+		LimitError("MAX_MONSTER_ATTACKS");
+		
+	MonsterAttacks[NumMonsterAttacks][MA_Name] = name;
+	Monsters[NumMonsters - 1][M_AttacksEnd]++;
+	NumMonsterAttacks++;
+}
+
+function void BossMonster(void)
+{
+	Monsters[NumMonsters - 1][M_IsBoss] = true;
+}
+
+function void LegendaryMonster(void)
+{
+	Monsters[NumMonsters - 1][M_Tier] = TIER_LEGENDARY;
+}
+
+function void FlyingMonster(void)
+{
+	Monsters[NumMonsters - 1][M_IsFlying] = true;
+}
+
+function void EvadingMonster(int speed)
+{
+	Monsters[NumMonsters - 1][M_EvadeSpeed] = speed;
+}
+
+// Accessors
+function str MonsterName(int monster) { return Monsters[monster][M_Name]; }
+function str MonsterActorname(int monster) { return Monsters[monster][M_ActorName]; }
+function str MonsterPossessedActorName(int monster) { return StrParam(s:"Possessed", s:MonsterActorName(monster)); }
+function str MonsterWeaponActorName(int monster) { return StrParam(s:MonsterActorName(monster), s:"Weapon"); }
+function int MonsterPower(int monster) { return Monsters[monster][M_Power]; }
+function bool MonsterIsBoss(int monster) { return Monsters[monster][M_IsBoss]; }
+function bool MonsterIsLegendary(int monster) { return Monsters[monster][M_Tier] == TIER_LEGENDARY; }
+function bool MonsterHasEvade(int monster) { return Monsters[monster][M_EvadeSpeed] >= 0; }
+function int MonsterEvadeSpeed(int monster) { return Monsters[monster][M_EvadeSpeed]; }
+function bool MonsterIsFlying(int monster) { return Monsters[monster][M_IsFlying]; }
+function int MonsterTypeCount(void) { return NumMonsters; }
+function str MonsterCategory(int monster) { return Monsters[monster][M_Category]; }
+function str MonsterIcon(int monster) { return Monsters[monster][M_Icon]; }
+function int MonsterItemsBegin(int monster) { return Monsters[monster][M_ItemsBegin]; }
+function int MonsterItemsEnd(int monster) { return Monsters[monster][M_ItemsEnd]; }
+function int MonsterVarsBegin(int monster) { return Monsters[monster][M_VarsBegin]; }
+function int MonsterVarsEnd(int monster) { return Monsters[monster][M_VarsEnd]; }
+function int MonsterAttackCount(int monster) { return Monsters[monster][M_AttacksEnd] - Monsters[monster][M_AttacksBegin]; }
+function int MonsterAttack(int monster, int attack) { return Monsters[monster][M_AttacksBegin] + attack; }
+
+function str MonsterItemActorName(int item) { return MonsterItems[item][MI_ActorName]; }
+function str MonsterUserVarName(int uservar) { return MonsterVars[uservar][MV_Name]; }
+function str MonsterAttackName(int attack) { return MonsterAttacks[attack][MA_Name]; }
+
+
+// Functions
+function int IdentifyMonster(int tid)
+{
+	for (int i = 0; i < NumMonsters; i++)
+	{
+		if (CheckActorClass(tid, Monsters[i][M_Actorname]))
+			return i;
+	}
+	
+	return -1;
+}
+
+function void MOPAddonClientside(int scriptnum)
+{
+	if (!IsServer())
+		ACS_ExecuteWithResult(scriptnum);
+}
+

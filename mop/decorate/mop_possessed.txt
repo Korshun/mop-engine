@@ -1,0 +1,75 @@
+Actor MOPPossessedMonster : PlayerPawn
+{
+	-PICKUP
+	+NOSKIN
+	+NOTARGET
+	-FRIENDLY
+	
+	Species "PossessedByMOP"
+	Player.SoundClass "PossessedByMOP"
+	
+	States
+	{
+	Death:
+		TNT1 A 1
+		Loop
+	}
+}
+
+Actor MOPPossessedWeapon : Weapon
+{
+	+UNDROPPABLE
+	+WEAPON.CHEATNOTWEAPON
+
+	States
+	{
+	Ready:
+		TNT1 A 1 A_WeaponReady
+		Loop
+	Select:
+		TNT1 A 0 A_Raise
+		Loop
+	Deselect:
+		TNT1 A 1 A_Lower
+		Loop
+	Fire:
+		TNT1 A 0
+		Goto Ready
+	Spawn:
+		TNT1 A -1
+		Stop
+	}
+}
+
+Actor MOPIsPossessed : MOPBoolean {}
+
+Actor MOPPossessedSuicide : MOPInteger {}
+
+Actor MOPAttack1 : MOPBoolean {}
+Actor MOPAttack2 : MOPBoolean {}
+Actor MOPAttack3 : MOPBoolean {}
+Actor MOPAttack4 : MOPBoolean {}
+Actor MOPAttack5 : MOPBoolean {}
+Actor MOPAttack6 : MOPBoolean {}
+Actor MOPAttack7 : MOPBoolean {}
+Actor MOPAttack8 : MOPBoolean {}
+Actor MOPAttack9 : MOPBoolean {}
+Actor MOPAttack10 : MOPBoolean {}
+Actor MOPAttack11 : MOPBoolean {}
+Actor MOPAttack12 : MOPBoolean {}
+Actor MOPAttack13 : MOPBoolean {}
+Actor MOPAttack14 : MOPBoolean {}
+Actor MOPAttack15 : MOPBoolean {}
+Actor MOPAttack16 : MOPBoolean {}
+Actor MOPAttack17 : MOPBoolean {}
+Actor MOPAttack18 : MOPBoolean {}
+Actor MOPAttack19 : MOPBoolean {}
+Actor MOPAttack20 : MOPBoolean {}
+Actor MOPAttack21 : MOPBoolean {}
+Actor MOPAttack22 : MOPBoolean {}
+Actor MOPAttack23 : MOPBoolean {}
+Actor MOPAttack24 : MOPBoolean {}
+Actor MOPAttack25 : MOPBoolean {}
+Actor MOPAttack26 : MOPBoolean {}
+Actor MOPAttack27 : MOPBoolean {}
+Actor MOPAttack28 : MOPBoolean {}

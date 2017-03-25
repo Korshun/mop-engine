@@ -1,0 +1,217 @@
+int Lives = 0;
+int GainedLives = 0.0;
+
+bool CanExit = false;
+bool BossBrainLevel = false;
+
+function void MarineFragged(void)
+{
+	Lives--;
+}
+
+script mopsc_open_clientside OPEN CLIENTSIDE
+{
+	ACS_ExecuteWithResult(800); // Load monster list
+}
+
+function void AwardExtraLives(int monster)
+{
+	GainedLives += FixedMul(MonsterPower(monster), a_GetCVarFixed("mop_lifegainmultiplier"));
+	while (GainedLives >= 1.0)
+	{
+		Lives++;
+		GainedLives -= 1.0;
+	}
+}
+
+
+script mopsc_open OPEN
+{
+	ACS_ExecuteWithResult(800); // Load monster list
+
+	if (GetCVar("mop_autoconfig"))
+		AutoconfigureServer();
+
+	SpawnInfoActor(TID_LIVESCOUNT);
+	SpawnInfoActor(TID_LIVINGMONSTERCOUNT);
+	SpawnInfoActor(TID_LIFEGAIN);
+	ACS_ExecuteAlways(mopsc_syncglobals, 0);
+	
+	int monstercount = 0;
+	int monsterforces = 0.0;
+	for (int monster = 0; monster < MonsterTypeCount(); monster++)
+	{
+		int count = ThingCountName(MonsterActorName(monster), 0);
+		monstercount += count;
+		monsterforces += MonsterPower(monster) * count;
+		if (count)
+			Log(d:count, s:"x", s:MonsterActorName(monster));
+		else
+			Log(s:"<none> ", s:MonsterActorName(monster));
+	}
+	
+	Lives = monsterforces;
+	if (ThingCountName("BossBrain", 0))
+	{
+		BossBrainLevel = true;
+		Lives += GetCVar("mop_bossbrain_bonuslives")<<16;
+	}
+
+	int minlives = max(1, GetCVar("mop_minstartlives"));
+	int maxlives = GetCVar("mop_maxstartlives");
+	if (maxlives <= 0)
+		maxlives = INT_MAX;
+		
+	Lives = FixedMul(Lives, a_GetCVarFixed("mop_startlivesmultiplier"));	
+	log(f:Lives, s:" ", d:minlives, s:" ", d:maxlives);
+	Lives = clamp(iround(Lives), minlives, maxlives);
+	
+
+	ACS_ExecuteAlways(mopsc_gamemonitor, 0);
+
+	// Check
+	Delay(5);
+	if (monstercount != LivingMonsterCount())
+		ProgramError(StrParam(d:monstercount, s:" monsters counted by init script, but ", d:LivingMonsterCount(), s:" monsters actually present"));
+}
+
+function void SpawnInfoActor(int tid)
+{
+	SpawnForced("MOPInfoActor", 0, 0, 0, tid);
+}
+
+script mopsc_syncglobals (void)
+{
+	SetActorSpeed(TID_LIVESCOUNT, Lives);
+	SetActorSpeed(TID_LIVINGMONSTERCOUNT, LivingMonsterCount());
+	SetActorSpeed(TID_LIFEGAIN, GainedLives);
+	Delay(1);
+	restart;
+}
+
+script mopsc_gamemonitor (void)
+{
+	if (BOOMSUPPORT)
+		ConsoleCommand("sv_noexit 1");
+
+	while (true)
+	{
+		if (Lives <= 0)
+		{
+			ACS_Execute(mopsc_victory, 0, TEAM_MOPS, false);
+			break;
+		}
+		
+		if (!CanExit && LivingMonsterCount() * 2 < TotalMonsterCount())
+		{
+			// Exit message code copied from MOP X
+			AmbientSound("mopsignal" ,127);
+			SetHudSize(320, 240, 0);
+			SetFont("BIGFONT");
+			hudmessageBOLd(s:"Exit now open!";
+				HUDMSG_FADEOUT | HUDMSG_LOG, HID_VICTORY, CR_GREEN, 160.0,155.0, 2.5);
+				
+			CanExit = true;
+			if (BOOMSUPPORT)
+				ConsoleCommand("sv_noexit 0");
+		}
+		
+		if (LivingMonsterCount() <= 0)
+		{
+			ACS_Execute(mopsc_victory, 0, TEAM_MARINES, false);
+			break;
+		}
+		
+		Delay(1);
+	}
+}
+
+script mopsc_xlat_exit (int secret)
+{
+	if (IsPuppetmaster())
+	{
+		print(s:"\cgPuppetmasters can't exit.");
+		terminate;
+	}
+	
+	if (!CanExit)
+	{
+		print(s:"\cdAt least half of monsters must be dead before marines can exit.");
+		terminate;
+	}
+	
+	ACS_Execute(mopsc_victory, 0, TEAM_MARINES, secret);
+}
+
+script mopsc_victory (int team, int secret)
+{
+	// Victory messages copied from MOP X 
+	SetHudSize(320, 240, 0);
+	SetFont("BIGFONT");
+	if (team == TEAM_MARINES)
+	{
+		hudmessageBOLd(s:"Marines Win!";
+			HUDMSG_FADEOUT | HUDMSG_LOG, HID_VICTORY, CR_GREEN, 160.0,155.0, 3.5);
+	}
+	else
+	{
+		hudmessageBOLd(s:"Puppet Masters Win!";
+			HUDMSG_FADEOUT | HUDMSG_LOG, HID_VICTORY, CR_RED, 160.0,155.0, 3.5);
+	}
+
+	if (team == TEAM_MARINES)
+	{
+		SetPlayerProperty(true, true, PROP_TOTALLYFROZEN);
+	
+		// Victory song copied from MOP X
+		AmbientSound("grunt/death1",127);
+		delay(random(10,15));
+		AmbientSound("grunt/death2",127);
+		delay(random(10,15));
+		AmbientSound("grunt/death3",127);
+		delay(15);
+		AmbientSound("demon/death",127);
+		delay(random(10,15));
+		AmbientSound("caco/death",127);
+		delay(random(10,15));
+		AmbientSound("baron/death",127);
+		delay(15);
+		AmbientSound("skeleton/death",127);
+		delay(15);
+		AmbientSound("demon/death",127);
+		delay(13);
+		AmbientSound("grunt/death1",127);
+		delay(random(10,15));
+		AmbientSound("grunt/death2",127);
+		delay(random(10,15));
+		AmbientSound("grunt/death3",127);
+		delay(15);
+		AmbientSound("demon/death",127);
+		delay(random(10,15));
+		AmbientSound("caco/death",127);
+		delay(random(10,15));
+		AmbientSound("baron/death",127);
+		delay(15);
+		AmbientSound("skeleton/death",127);
+		delay(15);
+		AmbientSound("demon/death",127);
+	}
+	else
+	{
+		// Victory song copied from MOP X
+		AmbientSound("baron/sight",127);
+		delay(10);
+		AmbientSound("baron/sight",127);
+		delay(10);
+		AmbientSound("baron/sight",127);
+		delay(10);
+		AmbientSound("baron/sight",127);
+		delay(35 * 3);
+	}
+
+	if (secret || GetCVar("mop_alwayssecretexit"))
+		Exit_Secret(0);
+	else
+		Exit_Normal(0);
+}
+

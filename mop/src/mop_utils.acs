@@ -1,0 +1,10 @@
+function void SetActivatorToPlayer(int player) { SetActivator(PlayerTid(player)); }
+
+function int TeamPlayerCount(int team)
+{
+	int count = 0;
+	for (int player = 0; player < MAX_PLAYERS; player++)
+		if (GetPlayerInfo(player, PLAYERINFO_TEAM) == team)
+			count++;
+	return count;
+}

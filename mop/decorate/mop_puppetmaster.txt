@@ -1,0 +1,119 @@
+Actor MOPIsMarine : MOPBoolean {}
+
+Actor MOPPuppetmaster : PlayerPawn
+{
+	Speed 1
+	Health 1
+	Radius 0
+	Height 0
+	Mass 100
+	PainChance 0
+	Player.ViewHeight 25
+	Player.DisplayName "Puppetmaster"
+	Player.SoundClass "Puppetmaster"
+	Player.WeaponSlot 1, "mopgun"
+	FloatSpeed 0
+
+	Player.StartItem "MOPGun"
+	
+	RenderStyle "None"
+	-NOBLOODDECALS
+	-DONTSPLASH
+	-NOINTERACTION
+	-SHOOTABLE
+	-SOLID
+	-PICKUP
+	-TELESTOMP
+	+CANNOTPUSH
+	+NONSHOOTABLE
+	-FRIENDLY
+	+NOTARGET
+	
+	LimitedToTeam 1
+  
+	States
+	{
+	Spawn:
+		TNT1 A 1
+		Loop
+	See:
+		TNT1 AAAAAAAAAA 2 A_SpawnItemEx("MOPPuppetmasterTrail", -20, 0, 0,  0, 0, 0,  0, SXF_NOCHECKPOSITION)
+		Goto Spawn
+	Missile:
+		TNT1 A 1
+		Goto Spawn
+	Death:
+		TNT1 A 1 A_HideThing
+		TNT1 A -1 
+		Stop
+	}
+}
+
+Actor MOPNoMorphFlash
+{
+	States
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor MOPGun : Weapon
+{
+	+WEAPON.NOALERT
+	+WEAPON.AMMO_OPTIONAL
+	+WEAPON.ALT_AMMO_OPTIONAL
+	+WEAPON.CHEATNOTWEAPON
+	+INVENTORY.UNDROPPABLE
+  
+	Tag "<NO MONSTER>"
+	
+	States
+	{
+	Ready:
+		TNT1 A 1 A_WeaponReady
+		Loop
+	Deselect:
+		TNT1 A 1 A_Lower
+		Loop
+	Select:
+		TNT1 A 1 A_Raise
+		Loop
+	Fire:
+		TNT1 A 0 ACS_ExecuteAlways(mop_possess)
+		Goto Ready
+	Spawn:
+		TNT1 A 1 Thing_Remove(0)
+		Stop
+	}
+}
+
+Actor MOPPuppetmasterTrail : MOPEffect
+{
+	RenderStyle Add
+	Alpha 0.15
+	scale 0.7
+	
+	+RANDOMIZE
+	
+	States
+	{	
+	Spawn:
+		SPIR AB 3
+		Stop
+	}
+}
+
+Actor MOPPossessedDeathGhost : MOPEffect
+{
+	RenderStyle Add
+	Scale 0.8
+	
+	States
+	{
+	Spawn:
+		SPIR EFGHIJ 3
+		Stop
+	}
+}
