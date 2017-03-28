@@ -81,7 +81,7 @@ Actor MOPGun : Weapon
 		TNT1 A 1 A_Raise
 		Loop
 	Fire:
-		TNT1 A 0 ACS_ExecuteAlways(mop_possess)
+		TNT1 A 0 ACS_ExecuteAlways(mopsc_possess)
 		Goto Ready
 	Spawn:
 		TNT1 A 1 Thing_Remove(0)
