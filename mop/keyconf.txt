@@ -1,0 +1,3 @@
+addkeysection "Master of Puppets" MOP
+addmenukey "Floor hugging mode" moptogglefloorhug
+alias moptogglefloorhug "use MOPFloorHugToggler"

@@ -11,7 +11,8 @@ Actor MOPPuppetmaster : PlayerPawn
 	Player.ViewHeight 25
 	Player.DisplayName "Puppetmaster"
 	Player.SoundClass "Puppetmaster"
-	Player.WeaponSlot 1, "mopgun"
+	Player.WeaponSlot 1, "MOPGun"
+	Player.StartItem "MOPFloorHugToggler"
 	FloatSpeed 0
 
 	Player.StartItem "MOPGun"
@@ -56,6 +57,32 @@ Actor MOPNoMorphFlash
 	Spawn:
 		TNT1 A 1
 		Stop
+	}
+}
+
+Actor MOPIsFloorHugging : MOPBoolean {}
+
+Actor MOPFloorHugToggler : CustomInventory
+{
+	States
+	{
+	Use:
+		NULL A 0 A_JumpIfInventory("MOPIsPossessed", 1, "Possessed")
+		NULL A 0 A_JumpIfInventory("MOPIsFloorHugging", 1, "Disable")
+		Goto Enable
+	Possessed:
+		NULL A 0
+		Fail
+	Enable:
+		NULL A 0 A_ChangeFlag("FLOORHUGGER", true)
+		NULL A 0 A_GiveInventory("MOPIsFloorHugging", 1)
+		NULL A 0 A_Print("Floor hugging enabled.", 3.0)
+		Fail
+	Disable:
+		NULL A 0 A_ChangeFlag("FLOORHUGGER", false)
+		NULL A 0 A_TakeInventory("MOPIsFloorHugging", 1)
+		NULL A 0 A_Print("Floor hugging disabled.", 3.0)
+		Fail
 	}
 }
 

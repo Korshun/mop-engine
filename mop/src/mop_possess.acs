@@ -80,6 +80,7 @@ script mopsc_possess (void)
 	// Initialize possessed inventory
 	SetInventory("MOPIsPossessed", 1);
 	SetInventory("MOPAttack1", 1);
+	SetInventory("MOPIsFloorHugging", 0);
 	
 	// Set properties and items
 	SetPlayerProperty(0, true, PROP_NOTARGET);
