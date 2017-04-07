@@ -31,20 +31,21 @@ script mopsc_gamehud OPEN CLIENTSIDE
 		HudResetState();
 		HudSetStayTime(0.03);
 		HudSetTextColor(CR_YELLOW);
+		HudSetTextOriginX(HUD_TEXTORIGIN_LEFT);
 		
-		HudSetPoint(230.0, 17.0);
+		HudSetPoint(225.0, 17.0);
 		if (icons) HudDrawImage(hidicon1, "MOPMARIN");
-		HudSetPoint(270.0, 20.0);
+		HudSetPoint(238.0, 16.0);
 		HudDrawText(hid1, StrAddInt("\cdMarines\c-: ", MarineCount()));
 		
-		HudSetPoint(230.0, 27.0);
+		HudSetPoint(225.0, 27.0);
 		if (icons) HudDrawImage(hidicon2, "MOPMOPS");
-		HudSetPoint(270.0, 23.0);
+		HudSetPoint(238.0, 24.0);
 		HudDrawText(hid2, StrAddInt("\cgMops\c-: ", PuppetmasterCount()));
 
-		HudSetPoint(340.0, 12.0);
+		HudSetPoint(335.0, 13.0);
 		if (icons) HudDrawImage(hidicon3, "MOPLIVES");
-		HudSetPoint(390.0, 20.0);
+		HudSetPoint(348.0, 16.0);
 		HudDrawText(hid3, StrAddInt("Lives: ", lives2));
 		
 		if (lives1 != lives2)
@@ -56,9 +57,9 @@ script mopsc_gamehud OPEN CLIENTSIDE
 			HudPopState();
 		}
 		
-		HudSetPoint(340.0, 22.0);
+		HudSetPoint(335.0, 23.0);
 		if (icons) HudDrawImage(hidicon4, "MOPMONST");
-		HudSetPoint(390.0, 15.0);
+		HudSetPoint(348.0, 24.0);
 		HudDrawText(hid4, StrAddInt("Monsters: ", monsters2));
 		
 		if (monsters1 != monsters2)
@@ -71,7 +72,7 @@ script mopsc_gamehud OPEN CLIENTSIDE
 			monsters1 = monsters2;
 		}
 		
-		HudSetPoint(430.0, 15.0);
+		HudSetPoint(411.0, 16.0);
 		HudDrawText(hidgain, StrParam(s:"\cj(", d:GetActorSpeed(TID_LIFEGAIN) * 100 / 1.0, s:"%)"));
 		
 		if (lives2 > lives1)
