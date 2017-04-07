@@ -167,9 +167,4 @@ function int IdentifyMonster(int tid)
 	return -1;
 }
 
-function void MOPAddonClientside(int scriptnum)
-{
-	if (!IsServer())
-		ACS_ExecuteWithResult(scriptnum);
-}
 
