@@ -5,6 +5,8 @@ Actor MOPPossessedMonster : PlayerPawn
 	+NOTARGET
 	-FRIENDLY
 	
+	DamageFactor "Slime", 0
+	
 	Species "PossessedByMOP"
 	Player.SoundClass "PossessedByMOP"
 	
