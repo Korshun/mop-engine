@@ -7,16 +7,14 @@ mopuse "sounds/mopuse"
 
 $random moptaunt { moptaunt1 moptaunt2 moptaunt3 }
 
-$playersound	PossessedByMOP	male	*taunt		DSEMPTY
-
-$playeralias    Puppetmaster male *pain100	moppain  
-$playersounddup Puppetmaster male *pain75	*pain100
-$playersounddup Puppetmaster male *pain50	*pain100
-$playersounddup Puppetmaster male *pain25	*pain100
-$playeralias    Puppetmaster male *death	moppain
-$playeralias    Puppetmaster male *xdeath	moppain
-$playeralias    Puppetmaster male *usefail	mopuse
-$playersounddup Puppetmaster male *grunt	*pain100
-$playersounddup Puppetmaster male *land		*pain100
-$playeralias    Puppetmaster male *jump		mopuse
-$playeralias    Puppetmaster male *taunt	moptaunt
+$playeralias    MOPPuppetmaster male *pain100	moppain  
+$playersounddup MOPPuppetmaster male *pain75	*pain100
+$playersounddup MOPPuppetmaster male *pain50	*pain100
+$playersounddup MOPPuppetmaster male *pain25	*pain100
+$playeralias    MOPPuppetmaster male *death	moppain
+$playeralias    MOPPuppetmaster male *xdeath	moppain
+$playeralias    MOPPuppetmaster male *usefail	mopuse
+$playersounddup MOPPuppetmaster male *grunt	*pain100
+$playersounddup MOPPuppetmaster male *land		*pain100
+$playeralias    MOPPuppetmaster male *jump		mopuse
+$playeralias    MOPPuppetmaster male *taunt	moptaunt

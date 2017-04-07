@@ -10,7 +10,7 @@ Actor MOPPuppetmaster : PlayerPawn
 	PainChance 0
 	Player.ViewHeight 25
 	Player.DisplayName "Puppetmaster"
-	Player.SoundClass "Puppetmaster"
+	Player.SoundClass "MOPPuppetmaster"
 	Player.WeaponSlot 1, "MOPGun"
 	Player.StartItem "MOPFloorHugToggler"
 	FloatSpeed 0
