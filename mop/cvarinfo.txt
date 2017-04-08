@@ -5,7 +5,6 @@ server int 		mop_maxstartlives = 0; // below 1 = no limit
 server bool		mop_autoconfig = true; // enable server autoconfig, see src/mop_autoconfig.acs
 server int 		mop_bossbrain_bonuslives = 10;
 server bool 	mop_alwayssecretexit = false; // Always perform a secret exit.
-server int		mop_pistolstartmode = 0;
 
 server int 		mop_minfrags_boss = 3;
 server int 		mop_minfrags_legendary = 3;
