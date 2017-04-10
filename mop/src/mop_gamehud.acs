@@ -80,7 +80,7 @@ script mopsc_gamehud OPEN CLIENTSIDE
 			lastgain += lives2 - lives1;
 			lastgaintime = Timer();
 
-			HudSetPoint(460.0, 15.0);
+			HudSetPoint(460.0, 16.0);
 			HudSetStayTime(0.5);
 			HudSetDisappearTime(1.0);
 			HudDrawText(hidgainflash, StrParam(s:"\cd+", d:lastgain));
