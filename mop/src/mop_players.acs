@@ -89,6 +89,7 @@ function void InitPlayer(bool newplayer)
 	{
 		SetPlayerProperty(0, true, PROP_FLY);
 		ACS_ExecuteAlways(mopsc_monsterinfohud, 0);
+		ACS_ExecuteAlways(mopsc_floorhugtoggle, 0);
 		if (newplayer)
 		{			
 			SetSpawnPoint(player, GetActorX(0), GetActorY(0), GetActorZ(0),
@@ -104,5 +105,16 @@ function void InitPlayer(bool newplayer)
 				
 			SetActorAngle(PlayerTid(player), Players[player][P_SpawnAngle]);
 		}
+	}
+}
+
+// Scripts
+script mopsc_floorhugtoggle (void)
+{
+	while (IsPuppetmaster())
+	{
+		if (KeyPressed(BT_RELOAD))
+			GiveInventory("MOPToggleFloorHugging", 1);
+		Delay(1);
 	}
 }

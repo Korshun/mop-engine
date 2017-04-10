@@ -40,6 +40,7 @@
 #define mopsc_xlat_exit 815
 #define mopsc_open_clientside 816
 #define mopsc_possessed_hud 817
+#define mopsc_floorhugtoggle 818
 // XLAT EXIT
 
 #include "mop_attacks.acs"
