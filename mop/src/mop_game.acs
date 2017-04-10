@@ -209,9 +209,33 @@ script mopsc_victory (int team, int secret)
 		delay(35 * 3);
 	}
 
-	if (secret || GetCVar("mop_alwayssecretexit"))
-		Exit_Secret(0);
+	if (!GetCVar("mop_prevmaponlose") || team != TEAM_MOPS)
+	{
+		if (secret || GetCVar("mop_alwayssecretexit"))
+			Exit_Secret(0);
+		else
+			Exit_Normal(0);
+	}
 	else
-		Exit_Normal(0);
+	{
+		int map = GetLevelInfo(LEVELINFO_LEVELNUM);
+		if (map != 1)
+		{
+			if (map == 31)
+				map = 15;
+			else if (GetCVar("mop_alwayssecretexit") && map == 16)
+				map = 32;
+			else
+				map -= 1;
+		}
+		
+		str mapname;
+		if (map < 10)
+			mapname = StrParam(s:"MAP0", d:map);
+		else
+			mapname = StrParam(s:"MAP", d:map);
+
+		ChangeLevel(mapname, 0, 0, -1);
+	}
 }
 
