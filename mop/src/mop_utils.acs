@@ -1,5 +1,3 @@
-function void SetActivatorToPlayer(int player) { SetActivator(PlayerTid(player)); }
-
 function int TeamPlayerCount(int team)
 {
 	int count = 0;
