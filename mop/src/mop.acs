@@ -45,6 +45,7 @@
 
 #include "mop_attacks.acs"
 #include "mop_autoconfig.acs"
+#include "mop_callbacks.acs"
 #include "mop_evade.acs"
 #include "mop_game.acs"
 #include "mop_gamehud.acs"
