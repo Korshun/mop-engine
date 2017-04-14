@@ -170,7 +170,7 @@ script mopsc_possess (void)
 	for (item = item1; item < item2; item++)
 		SetActorInventory(tid, MonsterItemActorName(item), PossessedItems[player][item]);
 	for (uservar = uservar1; uservar < uservar2; uservar++)
-		SetUserVariable(0, MonsterUserVarName(uservar), PossessedUserVars[player][uservar]);
+		SetUserVariable(tid, MonsterUserVarName(uservar), PossessedUserVars[player][uservar]);
 	
 	// Transfer health.
 	SetActorProperty(tid, APROP_HEALTH, hp1 - POSSESSED_ADDITIONAL_HP/*FixedDiv((hp1 - POSSESSED_ADDITIONAL_HP) * 1.0, DamageFactor) / 1.0*/);
