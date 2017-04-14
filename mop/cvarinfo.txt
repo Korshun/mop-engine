@@ -17,3 +17,6 @@ server int 		mop_minfrags_legendary = 3;
 server int 		mop_minfrags_legendary_boss = 3;
 
 user bool 	mop_cl_icons = true; // show icons on the game hud
+
+// Debug mode
+server bool mop_debug = false;

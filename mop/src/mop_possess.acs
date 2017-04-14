@@ -157,6 +157,8 @@ script mopsc_possess (void)
 
 	// Reset possessed inventory
 	SetInventory("MOPIsPossessed", 0);
+	if (GetCVar("mop_debug") && !CheckInventory("MOPGun"))
+		ProgramError(StrParam(s:ActivatorName(), s:" lost MOPGun"));
 	SetInventory("MOPGun", 1); // FIXME: MOPGun sometimes gets lost for some reason
 
 	// Was it suicide?
