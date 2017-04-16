@@ -5,4 +5,5 @@ function void AutoconfigureServer(void)
 	ConsoleCommand("compat_dont_stop_player_scripts_on_disconnect 1");
 	ConsoleCommand("compat_clientssendfullbuttoninfo 1");
 	ConsoleCommand("sv_nomonsters 0");
+	ConsoleCommand("sv_unblockplayers 0");
 }
