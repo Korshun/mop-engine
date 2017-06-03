@@ -5,6 +5,8 @@ Actor MOPPossessedMonster : PlayerPawn
 	+NOTARGET
 	-FRIENDLY
 	
+	DesignatedTeam 1
+	
 	DamageFactor "Slime", 0
 	
 	Species "PossessedByMOP"
