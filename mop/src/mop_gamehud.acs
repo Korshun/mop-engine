@@ -15,17 +15,17 @@ script mopsc_gamehud OPEN CLIENTSIDE
 	int hidgain = NewHid();
 	int hidgainflash = NewHid();
 
-	int lives1 = GetActorSpeed(TID_LIVESCOUNT);
+	int lives1 = GetSyncVar(TID_LIVESCOUNT);
 	int lives2 = lives1;
-	int monsters1 = GetActorSpeed(TID_LIVINGMONSTERCOUNT);
+	int monsters1 = GetSyncVar(TID_LIVINGMONSTERCOUNT);
 	int monsters2 = monsters1;
 	int lastgain = 0;
 	int lastgaintime = -1;
 
 	while (true)
 	{
-		lives2 = GetActorSpeed(TID_LIVESCOUNT);
-		monsters2 = GetActorSpeed(TID_LIVINGMONSTERCOUNT);
+		lives2 = GetSyncVar(TID_LIVESCOUNT);
+		monsters2 = GetSyncVar(TID_LIVINGMONSTERCOUNT);
 		bool icons = GetCVar("mop_cl_icons");
 	
 		HudResetState();
@@ -73,7 +73,7 @@ script mopsc_gamehud OPEN CLIENTSIDE
 		}
 		
 		HudSetPoint(411.0, 16.0);
-		HudDrawText(hidgain, StrParam(s:"\cj(", d:GetActorSpeed(TID_LIFEGAIN) * 100 / 1.0, s:"%)"));
+		HudDrawText(hidgain, StrParam(s:"\cj(", d:GetSyncVar(TID_LIFEGAIN) * 100 / 1.0, s:"%)"));
 		
 		if (lives2 > lives1)
 		{

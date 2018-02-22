@@ -32,9 +32,6 @@ script mopsc_open OPEN
 	if (GetCVar("mop_autoconfig"))
 		AutoconfigureServer();
 
-	SpawnInfoActor(TID_LIVESCOUNT);
-	SpawnInfoActor(TID_LIVINGMONSTERCOUNT);
-	SpawnInfoActor(TID_LIFEGAIN);
 	ACS_ExecuteAlways(mopsc_syncglobals, 0);
 	
 	int monstercount = 0;
@@ -82,9 +79,9 @@ function void SpawnInfoActor(int tid)
 
 script mopsc_syncglobals (void)
 {
-	SetActorSpeed(TID_LIVESCOUNT, Lives);
-	SetActorSpeed(TID_LIVINGMONSTERCOUNT, LivingMonsterCount());
-	SetActorSpeed(TID_LIFEGAIN, GainedLives);
+	SyncVariable(TID_LIVESCOUNT, Lives);
+	SyncVariable(TID_LIVINGMONSTERCOUNT, LivingMonsterCount());
+	SyncVariable(TID_LIFEGAIN, GainedLives);
 	Delay(1);
 	restart;
 }
