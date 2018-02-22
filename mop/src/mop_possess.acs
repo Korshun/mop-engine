@@ -161,15 +161,15 @@ script mopsc_possess (void)
 	// Reset possessed inventory
 	SetInventory("MOPIsPossessed", 0);
 	if (GetCVar("mop_debug") && !CheckInventory("MOPGun"))
-		ProgramError(StrParam(s:ActivatorName(), s:" lost MOPGun"));
+		printbold(s:ActivatorName(), s:" lost MOPGun");
 	SetInventory("MOPGun", 1); // FIXME: MOPGun sometimes gets lost for some reason
 
 	// Was it suicide?
 	int suicide = CheckInventory("PossessedSuicide");
 	
 	// Spawn the replacement actor and restore its properties and inventory.
-	int tid = NewTid();
-	SpawnForced(MonsterActorName(monster), x, y, z, NewTid(), angle>>8);
+	int tid = TEMPTID;
+	SpawnForced(MonsterActorName(monster), x, y, z, tid, angle>>8);
 	SetActorAngle(tid, angle);
 	SetActorVelocity(tid, vx, vy, vz, false, true);
 	for (item = item1; item < item2; item++)

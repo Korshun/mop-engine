@@ -72,7 +72,7 @@ script mopsc_open OPEN
 	// Check
 	Delay(5);
 	if (monstercount != LivingMonsterCount())
-		ProgramError(StrParam(d:monstercount, s:" monsters counted by init script, but ", d:LivingMonsterCount(), s:" monsters actually present"));
+		printbold(d:monstercount, s:" monsters counted by init script, but ", d:LivingMonsterCount(), s:" monsters actually present");
 }
 
 function void SpawnInfoActor(int tid)

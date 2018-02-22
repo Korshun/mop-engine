@@ -1,10 +1,8 @@
 #library "mop"
-
-#define ACSUTILS_HUDLIB_SAVEDSTATES 16
-#define TIDALLOCSTART 15000
-
 #include "zcommon.acs"
 #include "acsutils.acs"
+
+#define TEMPTID 15000
 
 #define TID_PLAYER 1000
 #define TID_LIVESCOUNT 3001
@@ -56,7 +54,6 @@
 #include "mop_players.acs"
 #include "mop_possess.acs"
 #include "mop_possessedhud.acs"
-#include "mop_utils.acs"
 
 
 function void ACSUtilsErrorHandler(int type, int message)

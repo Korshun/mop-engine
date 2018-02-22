@@ -31,7 +31,7 @@ script mopsc_gamehud OPEN CLIENTSIDE
 		HudResetState();
 		HudSetStayTime(0.03);
 		HudSetTextColor(CR_YELLOW);
-		HudSetTextOriginX(HUD_TEXTORIGIN_LEFT);
+		HudSetAlignmentX(HUD_ALIGN_LEFT);
 		
 		HudSetPoint(225.0, 17.0);
 		if (icons) HudDrawImage(hidicon1, "MOPMARIN");

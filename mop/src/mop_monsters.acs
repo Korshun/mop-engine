@@ -53,7 +53,7 @@ function void BeginCategory(str category)
 function void AddMonster(int power, str icon, str actorname, str name)
 {
 	if (NumMonsters >= MAX_MONSTERS)
-		LimitError("MAX_MONSTERS");
+		printbold(s:"MAX_MONSTERS");
 
 	Monsters[NumMonsters][M_ActorName] = actorname;
 	Monsters[NumMonsters][M_Name] = name;
@@ -81,7 +81,7 @@ function void AddSpawnedMonster(str icon, str actorname, str name)
 function void AddMonsterItem(str actorname)
 {
 	if (NumMonsterItems >= MAX_MONSTER_ITEMS)
-		LimitError("MAX_MONSTER_ITEMS");
+		printbold(s:"MAX_MONSTER_ITEMS");
 
 	MonsterItems[NumMonsterItems][MI_ActorName] = actorname;
 	Monsters[NumMonsters - 1][M_ItemsEnd]++;
@@ -91,7 +91,7 @@ function void AddMonsterItem(str actorname)
 function void AddMonsterUserVar(str name)
 {
 	if (NumMonsterItems >= MAX_MONSTER_VARS)
-		LimitError("MAX_MONSTER_VARS");
+		printbold(s:"MAX_MONSTER_VARS");
 
 	MonsterVars[NumMonsterVars][MV_Name] = name;
 	Monsters[NumMonsters - 1][M_VarsEnd]++;
@@ -102,7 +102,7 @@ function void AddMonsterUserVar(str name)
 function void AddMonsterAttack(str name)
 {
 	if (NumMonsterAttacks >= MAX_MONSTER_ATTACKS)
-		LimitError("MAX_MONSTER_ATTACKS");
+		printbold(s:"MAX_MONSTER_ATTACKS");
 		
 	MonsterAttacks[NumMonsterAttacks][MA_Name] = name;
 	Monsters[NumMonsters - 1][M_AttacksEnd]++;
