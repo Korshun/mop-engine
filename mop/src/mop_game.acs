@@ -37,11 +37,15 @@ script "mopsc_open" OPEN
 	
 	int monstercount = 0;
 	int monsterforces = 0.0;
+	int propmonstercount = 0;
 	for (int monster = 0; monster < MonsterTypeCount(); monster++)
 	{
 		int count = ThingCountName(MonsterActorName(monster), 0);
 		monstercount += count;
 		monsterforces += MonsterPower(monster) * count;
+		if (!MonsterIsCounted(monster))
+			propmonstercount += count;
+		
 		if (count)
 			Log(d:count, s:"x", s:MonsterActorName(monster));
 		else
@@ -69,8 +73,8 @@ script "mopsc_open" OPEN
 
 	// Check
 	Delay(5);
-	if (monstercount != LivingMonsterCount())
-		printbold(d:monstercount, s:" monsters counted by init script, but ", d:LivingMonsterCount(), s:" monsters actually present");
+	if (monstercount - propmonstercount != LivingMonsterCount())
+		printbold(d:monstercount - propmonstercount, s:" monsters counted by init script, but ", d:LivingMonsterCount(), s:" monsters actually present");
 }
 
 function void SpawnInfoActor(int tid)

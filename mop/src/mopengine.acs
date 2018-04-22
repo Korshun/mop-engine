@@ -5,12 +5,13 @@
 #library "mop"
 
 function void AddMonster(int power, str icon, str actorname, str name) {}
-function void AddSpawnedMonster(str icon, str actorname, str name) {}
 
+// Monster flags for AddMonster
 function void BossMonster(void) {}
 function void LegendaryMonster(void) {}
 function void FlyingMonster(void) {}
 function void EvadingMonster(int speed) {}
+function void NotCountedAsAMonster(void) {}
 
 function void AddMonsterItem(str actorname) {}
 function void AddMonsterUserVar(str name) {}
@@ -18,6 +19,7 @@ function void AddMonsterAttack(str name) {}
 
 function bool IsMarine(void) {}
 function bool IsPuppetmaster(void) {}
+function bool IsPossessed(void) {}
 
 // Monster information
 function str MonsterName(int monster) {}

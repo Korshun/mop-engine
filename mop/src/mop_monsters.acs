@@ -6,14 +6,15 @@
 #define M_Category 5
 #define M_IsFlying 6
 #define M_IsBoss 7
-#define M_ItemsBegin 8
-#define M_ItemsEnd 9
-#define M_AttacksBegin 10
-#define M_AttacksEnd 11
-#define M_Icon 12
-#define M_VarsBegin 13
-#define M_VarsEnd 14
-#define M_NUM_PROPERTIES 15
+#define M_IsCounted 8
+#define M_ItemsBegin 9
+#define M_ItemsEnd 10
+#define M_AttacksBegin 11
+#define M_AttacksEnd 12
+#define M_Icon 13
+#define M_VarsBegin 14
+#define M_VarsEnd 15
+#define M_NUM_PROPERTIES 16
 
 #define MI_ActorName 0
 #define MI_NUM_PROPERTIES 1
@@ -63,6 +64,7 @@ function void AddMonster(int power, str icon, str actorname, str name)
 	Monsters[NumMonsters][M_Category] = CurrentCategory;
 	Monsters[NumMonsters][M_IsFlying] = false;
 	Monsters[NumMonsters][M_IsBoss] = false;
+	Monsters[NumMonsters][M_IsCounted] = true;
 	Monsters[NumMonsters][M_Icon] = icon;
 	Monsters[NumMonsters][M_ItemsBegin] = NumMonsterItems;
 	Monsters[NumMonsters][M_ItemsEnd] = NumMonsterItems;
@@ -129,6 +131,11 @@ function void EvadingMonster(int speed)
 	Monsters[NumMonsters - 1][M_EvadeSpeed] = speed;
 }
 
+function void NotCountedAsAMonster(void)
+{
+	Monsters[NumMonsters - 1][M_IsCounted] = false;
+}
+
 // Accessors
 function str MonsterName(int monster) { return Monsters[monster][M_Name]; }
 function str MonsterActorname(int monster) { return Monsters[monster][M_ActorName]; }
@@ -140,6 +147,7 @@ function bool MonsterIsLegendary(int monster) { return Monsters[monster][M_Tier]
 function bool MonsterHasEvade(int monster) { return Monsters[monster][M_EvadeSpeed] >= 0; }
 function int MonsterEvadeSpeed(int monster) { return Monsters[monster][M_EvadeSpeed]; }
 function bool MonsterIsFlying(int monster) { return Monsters[monster][M_IsFlying]; }
+function bool MonsterIsCounted(int monster) { return Monsters[monster][M_IsCounted]; }
 function int MonsterTypeCount(void) { return NumMonsters; }
 function str MonsterCategory(int monster) { return Monsters[monster][M_Category]; }
 function str MonsterIcon(int monster) { return Monsters[monster][M_Icon]; }
