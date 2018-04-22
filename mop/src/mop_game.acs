@@ -11,7 +11,8 @@ function void MarineFragged(void)
 
 script "mopsc_open_clientside" OPEN CLIENTSIDE
 {
-	ACS_ExecuteWithResult(800); // Load monster list
+	if (!IsServer())
+		ACS_NamedExecuteWithResult("MOPEngine_Init"); // Load monster list
 }
 
 function void AwardExtraLives(int monster)
@@ -27,7 +28,7 @@ function void AwardExtraLives(int monster)
 
 script "mopsc_open" OPEN
 {
-	ACS_ExecuteWithResult(800); // Load monster list
+	ACS_NamedExecuteWithResult("MOPEngine_Init"); // Load monster list
 
 	if (GetCVar("mop_autoconfig"))
 		AutoconfigureServer();
