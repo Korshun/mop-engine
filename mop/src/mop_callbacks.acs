@@ -1,47 +1,24 @@
 #define CALLBACK_POSSESS 0
 #define NUM_CALLBACKS 1
 
-#define CBTYPE_NONE 0
-#define CBTYPE_NUMBERED 1
-#define CBTYPE_NAMED 2
+bool CallbackIsSet[NUM_CALLBACKS];
+str CallbackScriptName[NUM_CALLBACKS];
 
-int CallbackTypes[NUM_CALLBACKS];
-int NumberedCallbacks[NUM_CALLBACKS];
-str NamedCallbacks[NUM_CALLBACKS];
-
-
-function void SetCallback(int callback, int value)
+function void SetCallback(int callback, str scriptname)
 {
-	CallbackTypes[callback] = CBTYPE_NUMBERED;
-	NumberedCallbacks[callback] = value;
+	CallbackIsSet[callback] = true;
+	CallbackScriptName[callback] = scriptname;
 }
 
-function void SetCallbackNamed(int callback, str value)
+function int CallCallback(int callback, int arg1, int arg2, int arg3, int arg4)
 {
-	CallbackTypes[callback] = CBTYPE_NAMED;
-	NamedCallbacks[callback] = value;
-}
-
-function int CallCallback(int callback, int arg1, int arg2, int arg3)
-{
-	int type = CallbackTypes[callback];
-	switch (type)
-	{
-	case CBTYPE_NUMBERED:
-		return ACS_ExecuteWithResult(NumberedCallbacks[callback], arg1, arg2, arg3);
-	case CBTYPE_NAMED:
-		return ACS_NamedExecuteWithResult(NamedCallbacks[callback], arg1, arg2, arg3);
-	}
+	if (CallbackIsSet[callback])
+		return ACS_NamedExecuteWithResult(CallbackScriptName[callback], arg1, arg2, arg3, arg4);
 	return 0;
 }
 
 // Public callbacks
 function void MOPOnPossess(str scriptname)
 {
-	SetCallbackNamed(CALLBACK_POSSESS, scriptname);
-}
-
-function void MOPOnPossessNum(int scriptnum)
-{
-	SetCallback(CALLBACK_POSSESS, scriptnum);
+	SetCallback(CALLBACK_POSSESS, scriptname);
 }

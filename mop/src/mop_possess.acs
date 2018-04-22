@@ -107,7 +107,7 @@ script "mopsc_possess" (void)
 	int weapontimeout = 7;
 	
 	// Call possess callback.
-	CallCallback(CALLBACK_POSSESS, monster, 0, 0);
+	CallCallback(CALLBACK_POSSESS, monster, 0, 0, 0);
 	
 	// Wait until the monster dies or the puppetmaster leaves.
 	// And record the hp difference in case the monster died.
