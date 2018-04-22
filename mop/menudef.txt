@@ -1,0 +1,68 @@
+// Initial version contributed by Neon
+listmenu "MainMenu"
+{
+  staticpatch 85,0,"M_DOOM"
+  POSITION 92,72
+	
+  textitem "New Game","N","PlayerClassMenu"
+  textitem "MOP Options","C","MopEngineMenu"
+  textitem "Options","O","OptionsMenu"
+  textitem "Load","L","LoadGameMenu"
+  textitem "Save","S","SaveGameMenu"
+  textitem "Quit","Q","QuitMenu"
+}
+
+optionmenu MopEngineMenu
+{
+  title "MOP Engine options"
+  statictext ""
+  statictext "use the console to set specific values;"
+  statictext "options with 'cl' in the cvar name are clientsided."
+  statictext ""
+  option "mop_cl_icons", "mop_cl_icons", "onoff"
+  statictext "shows marine and puppetmaster icons on the ingame display."
+  statictext ""
+  slider "mop_startlivesmultiplier", "mop_startlivesmultiplier", 0.1, 2.0, 0.1
+  statictext "Marine starting live multiplier."
+  statictext ""
+  slider "mop_lifegainmultiplier", "mop_lifegainmultiplier", 0.0, 2.0, 0.1
+  statictext "lives gained from killing possessed monsters multiplier."
+  statictext ""
+  slider "mop_minstartlives", "mop_minstartlives", 1, 99, 1
+  statictext "minimum starting lives for marines, can't be below 1."
+  statictext ""
+  slider "mop_maxstartlives", "mop_maxstartlives", 0, 99, 1
+  statictext "maximum starting lives for marines, 0 = no limit."
+  statictext ""
+  option "mop_autoconfig", "mop_autoconfig", "onoff"
+  statictext "Auto-configure server cvars for MOP"
+  statictext "sv_disallowsuicide 1; sv_forcealpha 1; sv_nomonsters 0;"
+  statictext "compat_clientssendfullbuttoninfo 1;"
+  statictext "compat_dont_stop_player_scripts_on_disconnect 1."
+  statictext ""
+  slider "mop_bossbrain_bonuslives", "mop_bossbrain_bonuslives", 0, 20, 1
+  statictext "gives extra lives for marines if a bossbrain is present on the map."
+  statictext ""
+  option "mop_alwayssecretexit", "mop_alwayssecretexit", "onoff"
+  statictext "forces secret exits on maps that have them."
+  statictext ""
+  option "mop_prevmaponlose", "mop_prevmaponlose", "onoff"
+  statictext "Goes to the previous map if marines lose,"
+  statictext "Only wads that follow the Doom 2 structure are supported,"
+  statictext "If mop_alwayssecretexit is true, MAP16 will go back to MAP32,"
+  statictext "Losing on MAP01 restarts MAP01."
+  statictext ""
+  slider "mop_minfrags_boss", "mop_minfrags_boss", -1, 3, 1
+  statictext "amount of lives needed to posses a boss,"
+  statictext "0 = none needed, -1 = bosses can't be possessed."
+  statictext ""
+  slider "mop_minfrags_legendary", "mop_minfrags_legendary", -1, 3, 1
+  statictext "same as the above, for legendary monsters;"
+  statictext "only for complex lca mop."
+  statictext ""
+  slider "mop_minfrags_legendary_boss", "mop_minfrags_legendary_boss", -1, 3, 1
+  statictext "same as the above, for legendary boss monsters."
+  statictext "" /*
+  option "mop_debug", "mop_debug", "onoff"
+  statictext "displays debug info, only use if you know what you're doing!" */
+}
