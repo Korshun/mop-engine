@@ -1,4 +1,4 @@
-script mopsc_monsterinfohud (void)
+script "mopsc_monsterinfohud" (void)
 {
 	int prev_type = -1;
 	int prev_hp = -1;

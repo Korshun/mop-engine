@@ -21,25 +21,8 @@
 // Change depending on edition
 #define BOOMSUPPORT 0
 
-#define mopsc_open 801
-#define mopsc_enter 802
-#define mopsc_respawn 803
-#define mopsc_death 804
-#define mopsc_spectate 805
-#define mopsc_gamehud 806
-#define mopsc_attackswitching 807
-#define mopsc_syncglobals 808
-#define mopsc_log_possessed_death 809
-#define mopsc_possess 810
-#define mopsc_victory 811
-#define mopsc_gamemonitor 812
-#define mopsc_monsterinfohud 813
-#define mopsc_evade 814
-#define mopsc_xlat_exit 815
-#define mopsc_open_clientside 816
-#define mopsc_possessed_hud 817
-#define mopsc_floorhugtoggle 818
 // XLAT EXIT
+#define mopsc_xlat_exit 815
 
 #include "mop_attacks.acs"
 #include "mop_autoconfig.acs"

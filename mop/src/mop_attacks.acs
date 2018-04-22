@@ -3,7 +3,7 @@ function str AttackItem(int attack)
 	return StrParam(s:"MOPAttack", d:attack + 1);
 }
 
-script mopsc_attackswitching (int monster)
+script "mopsc_attackswitching" (int monster)
 {
 	if (MonsterAttackCount(monster) <= 2)
 		terminate;

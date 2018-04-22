@@ -9,7 +9,7 @@ function void MarineFragged(void)
 	Lives--;
 }
 
-script mopsc_open_clientside OPEN CLIENTSIDE
+script "mopsc_open_clientside" OPEN CLIENTSIDE
 {
 	ACS_ExecuteWithResult(800); // Load monster list
 }
@@ -25,14 +25,14 @@ function void AwardExtraLives(int monster)
 }
 
 
-script mopsc_open OPEN
+script "mopsc_open" OPEN
 {
 	ACS_ExecuteWithResult(800); // Load monster list
 
 	if (GetCVar("mop_autoconfig"))
 		AutoconfigureServer();
 
-	ACS_ExecuteAlways(mopsc_syncglobals, 0);
+	ACS_NamedExecuteAlways("mopsc_syncglobals", 0);
 	
 	int monstercount = 0;
 	int monsterforces = 0.0;
@@ -64,7 +64,7 @@ script mopsc_open OPEN
 	Lives = clamp(iround(Lives), minlives, maxlives);
 	
 
-	ACS_ExecuteAlways(mopsc_gamemonitor, 0);
+	ACS_NamedExecuteAlways("mopsc_gamemonitor", 0);
 
 	// Check
 	Delay(5);
@@ -77,7 +77,7 @@ function void SpawnInfoActor(int tid)
 	SpawnForced("MOPInfoActor", 0, 0, 0, tid);
 }
 
-script mopsc_syncglobals (void)
+script "mopsc_syncglobals" (void)
 {
 	SyncVariable(TID_LIVESCOUNT, Lives);
 	SyncVariable(TID_LIVINGMONSTERCOUNT, LivingMonsterCount());
@@ -86,7 +86,7 @@ script mopsc_syncglobals (void)
 	restart;
 }
 
-script mopsc_gamemonitor (void)
+script "mopsc_gamemonitor" (void)
 {
 	if (BOOMSUPPORT)
 		ConsoleCommand("sv_noexit 1");
@@ -95,7 +95,7 @@ script mopsc_gamemonitor (void)
 	{
 		if (Lives <= 0)
 		{
-			ACS_Execute(mopsc_victory, 0, TEAM_MOPS, false);
+			ACS_NamedExecute("mopsc_victory", 0, TEAM_MOPS, false);
 			break;
 		}
 		
@@ -115,7 +115,7 @@ script mopsc_gamemonitor (void)
 		
 		if (LivingMonsterCount() <= 0)
 		{
-			ACS_Execute(mopsc_victory, 0, TEAM_MARINES, false);
+			ACS_NamedExecute("mopsc_victory", 0, TEAM_MARINES, false);
 			break;
 		}
 		
@@ -137,10 +137,10 @@ script mopsc_xlat_exit (int secret)
 		terminate;
 	}
 	
-	ACS_Execute(mopsc_victory, 0, TEAM_MARINES, secret);
+	ACS_NamedExecute("mopsc_victory", 0, TEAM_MARINES, secret);
 }
 
-script mopsc_victory (int team, int secret)
+script "mopsc_victory" (int team, int secret)
 {
 	// Victory messages copied from MOP X 
 	SetHudSize(320, 240, 0);

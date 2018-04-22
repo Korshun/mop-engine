@@ -1,4 +1,4 @@
-script mopsc_log_possessed_death (int player, int monster) CLIENTSIDE
+script "mopsc_log_possessed_death" (int player, int monster) CLIENTSIDE
 {
 	Log(n:PlayerName(player), s:"\cd's ", s:MonsterName(monster), s:"\cd died.");
 }

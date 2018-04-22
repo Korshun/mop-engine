@@ -5,7 +5,7 @@ function int IsUnpossessed(void)
 	return !PlayerInGame(PlayerNumber()) || !IsPossessed();
 }
 
-script mopsc_evade (int speed)
+script "mopsc_evade" (int speed)
 {
 	int timeout;
 	int buttons = GetPlayerInput(-1, INPUT_BUTTONS);

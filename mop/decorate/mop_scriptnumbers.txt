@@ -1,1 +1,0 @@
-const int mopsc_possess = 810;

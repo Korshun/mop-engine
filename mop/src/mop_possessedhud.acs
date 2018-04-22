@@ -1,5 +1,5 @@
 // Puppeter custom hud drawing.
-script mopsc_possessed_hud(int monster, int spawnhp) CLIENTSIDE
+script "mopsc_possessed_hud" (int monster, int spawnhp) CLIENTSIDE
 {
 	if (ConsolePlayerNumber() != PlayerNumber())
 		terminate;

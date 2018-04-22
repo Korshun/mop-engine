@@ -1,7 +1,7 @@
 int PossessedItems[MAX_PLAYERS][MAX_MONSTER_ITEMS]; // ZDOOMVER: make this array local
 int PossessedUserVars[MAX_PLAYERS][MAX_MONSTER_VARS]; // ZDOOMVER: make this array local
 
-script mopsc_possess (void)
+script "mopsc_possess" (void)
 {
 	int player = PlayerNumber();
 
@@ -93,14 +93,14 @@ script mopsc_possess (void)
 		SetUserVariable(0, MonsterUserVarName(uservar), PossessedUserVars[player][uservar]);
 	
 	// Show HUD.
-	ACS_ExecuteAlways(mopsc_possessed_hud, 0, monster, spawnhealth);
+	ACS_NamedExecuteAlways("mopsc_possessed_hud", 0, monster, spawnhealth);
 	
 	// Launch evade script
 	if (MonsterHasEvade(monster))
-		ACS_ExecuteAlways(mopsc_evade, 0, MonsterEvadeSpeed(monster));
+		ACS_NamedExecuteAlways("mopsc_evade", 0, MonsterEvadeSpeed(monster));
 
 	// Initialize attack switching
-	ACS_ExecuteAlways(mopsc_attackswitching, 0, monster);
+	ACS_NamedExecuteAlways("mopsc_attackswitching", 0, monster);
 			
 	// Lock weapons to prevent firing instantly after possessing.
 	SetPlayerProperty(0, true, PROP_TOTALLYFROZEN);
@@ -184,7 +184,7 @@ script mopsc_possess (void)
 	
 	if (GetActorHealth(tid) < 0)
 	{
-		ACS_ExecuteAlways(mopsc_log_possessed_death, 0, player, monster);
+		ACS_NamedExecuteAlways("mopsc_log_possessed_death", 0, player, monster);
 		AwardExtraLives(monster);
 	}
 		

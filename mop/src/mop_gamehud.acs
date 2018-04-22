@@ -1,4 +1,4 @@
-script mopsc_gamehud OPEN CLIENTSIDE
+script "mopsc_gamehud" OPEN CLIENTSIDE
 {
 	int hid1 = NewHid();
 	int hid2 = NewHid();
