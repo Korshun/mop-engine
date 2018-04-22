@@ -168,7 +168,7 @@ script "mopsc_possess" (void)
 	int suicide = CheckInventory("PossessedSuicide");
 	
 	// Spawn the replacement actor and restore its properties and inventory.
-	int tid = TEMPTID;
+	int tid = UniqueTid();
 	SpawnForced(MonsterActorName(monster), x, y, z, tid, angle>>8);
 	SetActorAngle(tid, angle);
 	SetActorVelocity(tid, vx, vy, vz, false, true);

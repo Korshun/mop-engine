@@ -2,8 +2,6 @@
 #include "zcommon.acs"
 #include "acsutils.acs"
 
-#define TEMPTID 15000
-
 #define TID_PLAYER 1000
 #define TID_LIVESCOUNT 3001
 #define TID_LIVINGMONSTERCOUNT 3002
