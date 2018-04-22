@@ -58,7 +58,7 @@ ACSUtils uses code from ACS-X:
 // have been put into an array.
 #libdefine ACSUTILS_VERSION_MAJOR 1
 #libdefine ACSUTILS_VERSION_MINOR 8
-#libdefine ACSUTILS_VERSION_PATCH 1
+#libdefine ACSUTILS_VERSION_PATCH 2
 
 function str ACSUtilsVersion(void)
 {
@@ -89,61 +89,61 @@ int r1, r2, r3, r4, r5, r6, r7, r8;
 #libdefine HUD_PROJECTION_YSHEARING 2
 
 int ACSUtils_Ints[55] = {
-	HUD_ALIGN_CENTER, // R_AlignY
-	HUD_BLENDSTYLE_NORMAL, // R_BlendStyle
-	HUD_ALIGN_CENTER, // R_AlignX
-	1.0, // CursorSpeedY
-	0.0, // R3D_CameraX
-	false, // CursorWrapY
-	false, // R_LogMessage
 	240.0, // CursorY
-	HUD_PROJECTION_AUTO, // R3D_ProjectionMode
-	true, // R3D_AutoDistanceScale
-	0.0, // R_AppearTime
-	false, // R_CenterText
-	0.0, // R3D_Z
-	0.0, // R3D_CameraAngle
-	0.0, // R3D_2DOffsetX
-	HUD_STAYTIME_FOREVER, // R_StayTime
-	1.0, // R_Alpha
-	0.0, // R3D_CameraZ
-	0.0, // R3D_Y
-	HUDMSG_LAYER_OVERHUD, // R_Layer
-	true, // R_ShowOnOverlayAutomap
-	-1, // CachedPort
-	false, // CursorWrapX
-	0.0, // R3D_2DOffsetY
-	1.0, // CursorSpeedX
-	0, // R_RotatedY
-	320.0, // CursorX
-	CR_UNTRANSLATED, // R_TextColor
-	0, // HudStateStackTop
-	false, // R_ExcludeStatusBar
-	320.0, // CursorPrevX
-	1.0, // R_IScaleX
-	480.0, // CursorAreaHeight
-	0.0, // R3D_CameraY
-	0.0, // R3D_X
-	640.0, // CursorAreaWidth
-	480.0, // R_BaseHeight
-	0.0, // R_DisappearTime
-	0, // R_RotatedZ
-	false, // R_TextTypeOn
-	true, // R_ShowIn3DView
-	false, // R_ShowToEveryone
-	240.0, // CursorPrevY
-	false, // R_Is3DPoint
-	0.0, // R_Y
-	0.0, // R3D_CameraPitch
-	0, // CursorMotionY
-	0, // R_RotatedX
 	false, // R_TextColorIsString
+	480.0, // CursorAreaHeight
+	CR_UNTRANSLATED, // R_TextColor
+	-1, // CachedPort
+	0.0, // R_AppearTime
+	HUD_STAYTIME_FOREVER, // R_StayTime
+	1.0, // CursorSpeedY
+	false, // CursorWrapX
+	0.0, // R3D_CameraY
 	false, // R_TextWordWrap
+	0.0, // R3D_CameraPitch
+	0.0, // R3D_2DOffsetX
+	HUD_ALIGN_CENTER, // R_AlignX
+	0, // R_RotatedX
+	0.0, // R3D_Y
+	320.0, // CursorPrevX
+	HUD_PROJECTION_AUTO, // R3D_ProjectionMode
+	0.0, // R_Y
+	0.0, // R3D_CameraX
+	0.0, // R3D_Z
+	0.0, // R3D_2DOffsetY
+	0, // R_RotatedZ
 	640.0, // R_BaseWidth
+	true, // R_ShowIn3DView
+	1.0, // R_Alpha
+	false, // R_CenterText
+	HUDMSG_LAYER_OVERHUD, // R_Layer
+	0.0, // R3D_CameraAngle
 	0, // CursorMotionX
-	1.0, // R_IScaleY
+	1.0, // R_IScaleX
+	1.0, // CursorSpeedX
+	0.0, // R3D_X
+	false, // R_LogMessage
+	true, // R_ShowOnOverlayAutomap
+	320.0, // CursorX
+	0, // HudStateStackTop
+	false, // R_ShowToEveryone
+	0, // CursorMotionY
+	HUD_BLENDSTYLE_NORMAL, // R_BlendStyle
+	0.0, // R3D_CameraZ
 	0.0, // R_X
+	true, // R3D_AutoDistanceScale
+	false, // CursorWrapY
+	0, // R_RotatedY
+	false, // R_ExcludeStatusBar
+	480.0, // R_BaseHeight
+	240.0, // CursorPrevY
+	0.0, // R_DisappearTime
+	HUD_ALIGN_CENTER, // R_AlignY
 	true, // R_ShowOnFullAutomap
+	1.0, // R_IScaleY
+	false, // R_Is3DPoint
+	640.0, // CursorAreaWidth
+	false, // R_TextTypeOn
 };
 
 str ACSUtils_Strings[1] = {
@@ -484,79 +484,96 @@ function int randsign(void)
 
 function int RandomPick2(int v0, int v1)
 {
-	int A[2];
-	A[0] = v0;
-	A[1] = v1;
-	return A[Random(0, 1)];
+	if (Random(0, 1))
+		return v0;
+	return v1;
 }
 
 function int RandomPick3(int v0, int v1, int v2)
 {
-	int A[3];
-	A[0] = v0;
-	A[1] = v1;
-	A[2] = v2;
-	return A[Random(0, 2)];
+	int x = Random(0, 2);
+	switch (x)
+	{
+	case 0: return v0;
+	case 1: return v1;
+	}
+
+	return v2;
 }
 
 function int RandomPick4(int v0, int v1, int v2, int v3)
 {
-	int A[4];
-	A[0] = v0;
-	A[1] = v1;
-	A[2] = v2;
-	A[3] = v3;
-	return A[Random(0, 3)];
+	int x = Random(0, 3);
+	switch (x)
+	{
+	case 0: return v0;
+	case 1: return v1;
+	case 2: return v2;
+	}
+
+	return v3;
 }
 
 function int RandomPick5(int v0, int v1, int v2, int v3, int v4)
 {
-	int A[5];
-	A[0] = v0;
-	A[1] = v1;
-	A[2] = v2;
-	A[3] = v3;
-	A[4] = v4;
-	return A[Random(0, 4)];
+	int x = Random(0, 4);
+	switch (x)
+	{
+	case 0: return v0;
+	case 1: return v1;
+	case 2: return v2;
+	case 3: return v3;
+	}
+
+	return v4;
 }
 
 function int RandomPick6(int v0, int v1, int v2, int v3, int v4, int v5)
 {
-	int A[6];
-	A[0] = v0;
-	A[1] = v1;
-	A[2] = v2;
-	A[3] = v3;
-	A[4] = v4;
-	A[5] = v5;
-	return A[Random(0, 5)];
+	int x = Random(0, 5);
+	switch (x)
+	{
+	case 0: return v0;
+	case 1: return v1;
+	case 2: return v2;
+	case 3: return v3;
+	case 4: return v4;
+	}
+
+	return v5;
 }
 
 function int RandomPick7(int v0, int v1, int v2, int v3, int v4, int v5, int v6)
 {
-	int A[7];
-	A[0] = v0;
-	A[1] = v1;
-	A[2] = v2;
-	A[3] = v3;
-	A[4] = v4;
-	A[5] = v5;
-	A[6] = v6;
-	return A[Random(0, 6)];
+	int x = Random(0, 6);
+	switch (x)
+	{
+	case 0: return v0;
+	case 1: return v1;
+	case 2: return v2;
+	case 3: return v3;
+	case 4: return v4;
+	case 5: return v5;
+	}
+
+	return v6;
 }
 
 function int RandomPick8(int v0, int v1, int v2, int v3, int v4, int v5, int v6, int v7)
 {
-	int A[8];
-	A[0] = v0;
-	A[1] = v1;
-	A[2] = v2;
-	A[3] = v3;
-	A[4] = v4;
-	A[5] = v5;
-	A[6] = v6;
-	A[7] = v7;
-	return A[Random(0, 7)];
+	int x = Random(0, 7);
+	switch (x)
+	{
+	case 0: return v0;
+	case 1: return v1;
+	case 2: return v2;
+	case 3: return v3;
+	case 4: return v4;
+	case 5: return v5;
+	case 6: return v6;
+	}
+
+	return v7;
 }
 
 function int npo2(int v)
@@ -571,21 +588,20 @@ function int npo2(int v)
 	return v;
 }
 
-function int bitlog2(int value)
+function int getNumDigits(int base, int number)
 {
-	int bitlog2table[32] = {
-		 0,  9,  1, 10, 13, 21,  2, 29,
-		11, 14, 16, 18, 22, 25,  3, 30,
-		 8, 12, 20, 28, 15, 17, 24,  7,
-		19, 27, 23,  6, 26,  5,  4, 31
-	};
+	int digits = 0;
+	while (number)
+	{
+		digits++;
+		number /= base;
+	}
+	return digits;
+}
 
-    value |= value >> 1;
-    value |= value >> 2;
-    value |= value >> 4;
-    value |= value >> 8;
-    value |= value >> 16;
-    return bitlog2table[(value*0x07C4ACDD) >> 27];
+function int flag2index(int x)
+{
+	return getNumDigits(2, x) - 1;
 }
 
 
@@ -1924,6 +1940,10 @@ function int GetActorXYVelocity(int tid)
 	return VectorLength(GetActorVelX(tid), GetActorVelY(tid));
 }
 
+function int GetActorVelocityXY(int tid)
+{
+	return VectorLength(GetActorVelX(tid), GetActorVelY(tid));
+}
 
 // Actor utility functions.
 
@@ -3053,88 +3073,84 @@ function int SpectatorCount(void)
 }
 
 
+int ACSUtils_Players[MAX_PLAYERS];
+
 function int PickRandomBot(void)
 {
-	int Players[MAX_PLAYERS];
 	int numPlayers = 0;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 		if (PlayerIsBot(i))
-			Players[numPlayers++] = i;
+			ACSUtils_Players[numPlayers++] = i;
 	
 	if (numPlayers == 0)
 		return -1;
 	
-	return Players[Random(0, numPlayers - 1)];
+	return ACSUtils_Players[Random(0, numPlayers - 1)];
 }
 
 function int PickRandomClient(void)
 {
-	int Players[MAX_PLAYERS];
 	int numPlayers = 0;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 		if (PlayerIsConnected(i))
-			Players[numPlayers++] = i;
+			ACSUtils_Players[numPlayers++] = i;
 	
 	if (numPlayers == 0)
 		return -1;
 	
-	return Players[Random(0, numPlayers - 1)];
+	return ACSUtils_Players[Random(0, numPlayers - 1)];
 }
 
 function int PickRandomDeadSpectator(void)
 {
-	int Players[MAX_PLAYERS];
 	int numPlayers = 0;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 		if (PlayerIsDeadSpectator(i))
-			Players[numPlayers++] = i;
+			ACSUtils_Players[numPlayers++] = i;
 	
 	if (numPlayers == 0)
 		return -1;
 	
-	return Players[Random(0, numPlayers - 1)];
+	return ACSUtils_Players[Random(0, numPlayers - 1)];
 }
 
 function int PickRandomPlayer(void)
 {
-	int Players[MAX_PLAYERS];
 	int numPlayers = 0;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 		if (PlayerInGame(i))
-			Players[numPlayers++] = i;
+			ACSUtils_Players[numPlayers++] = i;
 	
 	if (numPlayers == 0)
 		return -1;
 	
-	return Players[Random(0, numPlayers - 1)];
+	return ACSUtils_Players[Random(0, numPlayers - 1)];
 }
 
 function int PickRandomSpectator(void)
 {
-	int Players[MAX_PLAYERS];
 	int numPlayers = 0;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 		if (PlayerIsSpectator(i))
-			Players[numPlayers++] = i;
+			ACSUtils_Players[numPlayers++] = i;
 	
 	if (numPlayers == 0)
 		return -1;
 	
-	return Players[Random(0, numPlayers - 1)];
+	return ACSUtils_Players[Random(0, numPlayers - 1)];
 }
 
 function int PickRandomTeamPlayer(int team)
 {
-	int Players[MAX_PLAYERS];
 	int numPlayers = 0;
 	for (int i = 0; i < MAX_PLAYERS; i++)
 		if (PlayerInGame(i) && GetPlayerTeam(i) == team)
-			Players[numPlayers++] = i;
+			ACSUtils_Players[numPlayers++] = i;
 	
 	if (numPlayers == 0)
 		return -1;
 	
-	return Players[Random(0, numPlayers - 1)];
+	return ACSUtils_Players[Random(0, numPlayers - 1)];
 }
 
 
@@ -3158,106 +3174,106 @@ function int PickRandomTeamPlayer(int team)
 
 function int CursorX(void)
 {
-	return ACSUtils_Ints[26];
+	return ACSUtils_Ints[35];
 }
 
 function int CursorY(void)
 {
-	return ACSUtils_Ints[7];
+	return ACSUtils_Ints[0];
 }
 
 function int CursorDeltaX(void)
 {
-	if (ACSUtils_Ints[22])
+	if (ACSUtils_Ints[8])
 		return CursorMotionX();
-	return ACSUtils_Ints[26] - ACSUtils_Ints[30];
+	return ACSUtils_Ints[35] - ACSUtils_Ints[16];
 }
 function int CursorDeltaY(void)
 {
-	if (ACSUtils_Ints[5])
+	if (ACSUtils_Ints[43])
 		return CursorMotionY();
-	return ACSUtils_Ints[7] - ACSUtils_Ints[42];
+	return ACSUtils_Ints[0] - ACSUtils_Ints[47];
 }
 
 function int CursorMotionX(void)
 {
-	return ACSUtils_Ints[51];
+	return ACSUtils_Ints[29];
 }
 
 function int CursorMotionY(void)
 {
-	return ACSUtils_Ints[46];
+	return ACSUtils_Ints[38];
 }
 
 function void SetCursorSpeed(int speed)
 {
-	ACSUtils_Ints[24] = speed;
-	ACSUtils_Ints[3] = speed;
+	ACSUtils_Ints[31] = speed;
+	ACSUtils_Ints[7] = speed;
 }
 
 function void SetCursorSpeedX(int speed)
 {
-	ACSUtils_Ints[24] = speed;
+	ACSUtils_Ints[31] = speed;
 }
 
 function void SetCursorSpeedY(int speed)
 {
-	ACSUtils_Ints[3] = speed;
+	ACSUtils_Ints[7] = speed;
 }
 
 function void SetCursorPosition(int x, int y)
 {
-	ACSUtils_Ints[26] = x;
-	ACSUtils_Ints[7] = y;
+	ACSUtils_Ints[35] = x;
+	ACSUtils_Ints[0] = y;
 }
 
 function void CenterCursor(void)
 {
-	SetCursorPosition(ACSUtils_Ints[35] / 2, ACSUtils_Ints[32] / 2);
+	SetCursorPosition(ACSUtils_Ints[53] / 2, ACSUtils_Ints[2] / 2);
 }
 
 function void EnableCursorWrap(bool enable)
 {
-	ACSUtils_Ints[22] = enable;
-	ACSUtils_Ints[5] = enable;
+	ACSUtils_Ints[8] = enable;
+	ACSUtils_Ints[43] = enable;
 }
 
 function void EnableCursorWrapX(bool enable)
 {
-	ACSUtils_Ints[22] = enable;
+	ACSUtils_Ints[8] = enable;
 }
 
 function void EnableCursorWrapY(bool enable)
 {
-	ACSUtils_Ints[5] = enable;
+	ACSUtils_Ints[43] = enable;
 }
 
 function void ACSUtils_ClampCursor(void)
 {
-	int width = ACSUtils_Ints[35];
-	int height = ACSUtils_Ints[32];
+	int width = ACSUtils_Ints[53];
+	int height = ACSUtils_Ints[2];
 	
 	int borderX = HudBorderXFor(width);
 	int borderY = HudBorderYFor(height);
 	
-	ACSUtils_Ints[26] += borderX;
-	ACSUtils_Ints[7] += borderY;
+	ACSUtils_Ints[35] += borderX;
+	ACSUtils_Ints[0] += borderY;
 	
 	width +=  ((borderX) * 2);
 	height += ((borderY) * 2);
 
-	if (ACSUtils_Ints[22])
-		ACSUtils_Ints[26] = mod(ACSUtils_Ints[26], width);
+	if (ACSUtils_Ints[8])
+		ACSUtils_Ints[35] = mod(ACSUtils_Ints[35], width);
 	else
-		ACSUtils_Ints[26] = clamp(ACSUtils_Ints[26], 0, width);
+		ACSUtils_Ints[35] = clamp(ACSUtils_Ints[35], 0, width);
 	
-	if (ACSUtils_Ints[5])
-		ACSUtils_Ints[7] = mod(ACSUtils_Ints[7], height);
+	if (ACSUtils_Ints[43])
+		ACSUtils_Ints[0] = mod(ACSUtils_Ints[0], height);
 	else
-		ACSUtils_Ints[7] = clamp(ACSUtils_Ints[7], 0, height);
+		ACSUtils_Ints[0] = clamp(ACSUtils_Ints[0], 0, height);
 		
-	ACSUtils_Ints[26] -= borderX;
-	ACSUtils_Ints[7] -= borderY;
+	ACSUtils_Ints[35] -= borderX;
+	ACSUtils_Ints[0] -= borderY;
 }
 
 function void SetCursorArea(int width, int height)
@@ -3267,28 +3283,28 @@ function void SetCursorArea(int width, int height)
 	if (height <= 0.0)
 		ACSUtils_ProgramError(StrParam(s:"Cursor area height set to ", f:height));
 	
-	ACSUtils_Ints[26] = FixedMul(ACSUtils_Ints[26], FixedDiv(width, ACSUtils_Ints[35]));
-	ACSUtils_Ints[7] = FixedMul(ACSUtils_Ints[7], FixedDiv(height, ACSUtils_Ints[32]));
-	ACSUtils_Ints[30] = FixedMul(ACSUtils_Ints[30], FixedDiv(width, ACSUtils_Ints[35]));
-	ACSUtils_Ints[42] = FixedMul(ACSUtils_Ints[42], FixedDiv(height, ACSUtils_Ints[32]));
-	ACSUtils_Ints[51] = FixedMul(ACSUtils_Ints[51], FixedDiv(width, ACSUtils_Ints[35]));
-	ACSUtils_Ints[46] = FixedMul(ACSUtils_Ints[46], FixedDiv(height, ACSUtils_Ints[32]));
+	ACSUtils_Ints[35] = FixedMul(ACSUtils_Ints[35], FixedDiv(width, ACSUtils_Ints[53]));
+	ACSUtils_Ints[0] = FixedMul(ACSUtils_Ints[0], FixedDiv(height, ACSUtils_Ints[2]));
+	ACSUtils_Ints[16] = FixedMul(ACSUtils_Ints[16], FixedDiv(width, ACSUtils_Ints[53]));
+	ACSUtils_Ints[47] = FixedMul(ACSUtils_Ints[47], FixedDiv(height, ACSUtils_Ints[2]));
+	ACSUtils_Ints[29] = FixedMul(ACSUtils_Ints[29], FixedDiv(width, ACSUtils_Ints[53]));
+	ACSUtils_Ints[38] = FixedMul(ACSUtils_Ints[38], FixedDiv(height, ACSUtils_Ints[2]));
 
-	ACSUtils_Ints[35] = width;
-	ACSUtils_Ints[32] = height;
+	ACSUtils_Ints[53] = width;
+	ACSUtils_Ints[2] = height;
 }
 
 function void UpdateCursor(void)
 {
-	ACSUtils_Ints[30] = ACSUtils_Ints[26];
-	ACSUtils_Ints[42] = ACSUtils_Ints[7];
+	ACSUtils_Ints[16] = ACSUtils_Ints[35];
+	ACSUtils_Ints[47] = ACSUtils_Ints[0];
 
 	int sensitivity = a_GetCVarFixed("mouse_sensitivity");
-	int speedX = FixedDiv(ACSUtils_Ints[24], FixedMul(a_GetCVarFixed("m_yaw"), sensitivity));
-	int speedY = FixedDiv(ACSUtils_Ints[3], FixedMul(a_GetCVarFixed("m_pitch"), sensitivity));
+	int speedX = FixedDiv(ACSUtils_Ints[31], FixedMul(a_GetCVarFixed("m_yaw"), sensitivity));
+	int speedY = FixedDiv(ACSUtils_Ints[7], FixedMul(a_GetCVarFixed("m_pitch"), sensitivity));
 	
-	speedX = ((FixedMul(((speedX) * 2), ACSUtils_Ints[35])) / 64000);
-	speedY = ((FixedMul(((speedY) * 2), ACSUtils_Ints[32])) / 32000);
+	speedX = ((FixedMul(((speedX) * 2), ACSUtils_Ints[53])) / 64000);
+	speedY = ((FixedMul(((speedY) * 2), ACSUtils_Ints[2])) / 32000);
 
 	int dx = (-GetPlayerInput(ConsolePlayerNumber(), INPUT_YAW)   * (speedX));
     int dy = (-GetPlayerInput(ConsolePlayerNumber(), INPUT_PITCH) * (speedY));
@@ -3296,10 +3312,10 @@ function void UpdateCursor(void)
 	if (GetCVar("invertmouse"))
         dy = -dy;
 		
-	ACSUtils_Ints[51] = dx;
-	ACSUtils_Ints[46] = dy;
-	ACSUtils_Ints[26] += dx;
-	ACSUtils_Ints[7] += dy;
+	ACSUtils_Ints[29] = dx;
+	ACSUtils_Ints[38] = dy;
+	ACSUtils_Ints[35] += dx;
+	ACSUtils_Ints[0] += dy;
 	ACSUtils_ClampCursor();
 }
 
@@ -3312,15 +3328,15 @@ function void UpdateCursor(void)
 // Port identification methods copied from ACS-X
 function int IdentifySourcePort(void)
 {
-	if (ACSUtils_Ints[21] != -1)
-		return ACSUtils_Ints[21];
+	if (ACSUtils_Ints[4] != -1)
+		return ACSUtils_Ints[4];
 
 	if (GetPlayerAccountName(0) != 0)
 	{
 		// GetPlayerAccountName returns a string (possibly empty) in Zandronum
 		// but 0 in GZDoom.
-		ACSUtils_Ints[21] = PORT_ZANDRONUM;
-		return ACSUtils_Ints[21];
+		ACSUtils_Ints[4] = PORT_ZANDRONUM;
+		return ACSUtils_Ints[4];
 	}
 	
 	int tid = UniqueTid();
@@ -3328,12 +3344,12 @@ function int IdentifySourcePort(void)
 	{
 		// DynamicLight is a built-in actor in GZDoom.
 		Thing_Remove(tid);
-		ACSUtils_Ints[21] = PORT_GZDOOM;
-		return ACSUtils_Ints[21];
+		ACSUtils_Ints[4] = PORT_GZDOOM;
+		return ACSUtils_Ints[4];
 	}
 	
-	ACSUtils_Ints[21] = PORT_ZDOOM;
-	return ACSUtils_Ints[21];
+	ACSUtils_Ints[4] = PORT_ZDOOM;
+	return ACSUtils_Ints[4];
 }
 
 function str GetPortName(void)
@@ -3736,212 +3752,212 @@ function int GetSyncVarDefault(int tid, int default_value)
 
 function void HudResetState(void)
 {
-	ACSUtils_Ints[43] = false;
+	ACSUtils_Ints[52] = false;
 
 
-	ACSUtils_Ints[4] = 0.0;
-	ACSUtils_Ints[33] = 0.0;
-	ACSUtils_Ints[17] = 0.0;
-	ACSUtils_Ints[13] = 0.0;
-	ACSUtils_Ints[45] = 0.0;
+	ACSUtils_Ints[19] = 0.0;
+	ACSUtils_Ints[9] = 0.0;
+	ACSUtils_Ints[40] = 0.0;
+	ACSUtils_Ints[28] = 0.0;
+	ACSUtils_Ints[11] = 0.0;
 
-	ACSUtils_Ints[34] = 0.0;
-	ACSUtils_Ints[18] = 0.0;
+	ACSUtils_Ints[32] = 0.0;
+	ACSUtils_Ints[15] = 0.0;
+	ACSUtils_Ints[20] = 0.0;
+
 	ACSUtils_Ints[12] = 0.0;
+	ACSUtils_Ints[21] = 0.0;
 
-	ACSUtils_Ints[14] = 0.0;
-	ACSUtils_Ints[23] = 0.0;
+	ACSUtils_Ints[42] = true;
+	ACSUtils_Ints[17] = HUD_PROJECTION_AUTO;
 
-	ACSUtils_Ints[9] = true;
-	ACSUtils_Ints[8] = HUD_PROJECTION_AUTO;
+	ACSUtils_Ints[23] = 640.0;
+	ACSUtils_Ints[46] = 480.0;
+	ACSUtils_Ints[45] = false;
 
-	ACSUtils_Ints[50] = 640.0;
-	ACSUtils_Ints[36] = 480.0;
-	ACSUtils_Ints[29] = false;
+	ACSUtils_Ints[41] = 0.0;
+	ACSUtils_Ints[18] = 0.0;
 
-	ACSUtils_Ints[53] = 0.0;
-	ACSUtils_Ints[44] = 0.0;
+	ACSUtils_Ints[30] = 1.0;
+	ACSUtils_Ints[51] = 1.0;
 
-	ACSUtils_Ints[31] = 1.0;
-	ACSUtils_Ints[52] = 1.0;
+	ACSUtils_Ints[37] = false;
 
-	ACSUtils_Ints[41] = false;
+	ACSUtils_Ints[5] = 0.0;
+	ACSUtils_Ints[6] = HUD_STAYTIME_FOREVER;
+	ACSUtils_Ints[48] = 0.0;
 
-	ACSUtils_Ints[10] = 0.0;
-	ACSUtils_Ints[15] = HUD_STAYTIME_FOREVER;
-	ACSUtils_Ints[37] = 0.0;
+	ACSUtils_Ints[39] = HUD_BLENDSTYLE_NORMAL;
+	ACSUtils_Ints[25] = 1.0;
 
-	ACSUtils_Ints[1] = HUD_BLENDSTYLE_NORMAL;
-	ACSUtils_Ints[16] = 1.0;
+	ACSUtils_Ints[24] = true;
+	ACSUtils_Ints[50] = true;
+	ACSUtils_Ints[34] = true;
 
-	ACSUtils_Ints[40] = true;
-	ACSUtils_Ints[54] = true;
-	ACSUtils_Ints[20] = true;
+	ACSUtils_Ints[27] = HUDMSG_LAYER_OVERHUD;
 
-	ACSUtils_Ints[19] = HUDMSG_LAYER_OVERHUD;
-
-	ACSUtils_Ints[2] = HUD_ALIGN_CENTER;
-	ACSUtils_Ints[0] = HUD_ALIGN_CENTER;
-	ACSUtils_Ints[11] = false;
+	ACSUtils_Ints[13] = HUD_ALIGN_CENTER;
+	ACSUtils_Ints[49] = HUD_ALIGN_CENTER;
+	ACSUtils_Ints[26] = false;
 	ACSUtils_Strings[0] = "SMALLFONT";
-	ACSUtils_Ints[48] = false;
-	ACSUtils_Ints[27] = CR_UNTRANSLATED;
-	ACSUtils_Ints[39] = false;
-	ACSUtils_Ints[6] = false;
-	ACSUtils_Ints[49] = false;
+	ACSUtils_Ints[1] = false;
+	ACSUtils_Ints[3] = CR_UNTRANSLATED;
+	ACSUtils_Ints[54] = false;
+	ACSUtils_Ints[33] = false;
+	ACSUtils_Ints[10] = false;
 }
 
 int HudStateStack[ACSUTILS_HUDLIB_STACKSIZE];
 
 function void HudClearStateStack(void)
 {
-	ACSUtils_Ints[28] = 0;
+	ACSUtils_Ints[36] = 0;
 }
 
 function void HudPushState(void)
 {
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[43];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[52];
 
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[4];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[33];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[17];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[13];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[45];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[19];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[9];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[40];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[28];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[11];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[34];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[18];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[12];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[32];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[15];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[20];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[14];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[23];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[12];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[21];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[9];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[8];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[42];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[17];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[50];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[36];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[29];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[23];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[46];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[45];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[53];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[44];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[41];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[18];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[31];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[52];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[30];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[51];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[41];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[37];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[10];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[15];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[37];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[5];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[6];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[48];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[1];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[16];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[39];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[25];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[40];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[54];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[20];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[24];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[50];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[34];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[19];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[27];
 
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[2];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[0];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[11];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Strings[0];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[48];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[27];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[39];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[6];
-	HudStateStack[ACSUtils_Ints[28]++] = ACSUtils_Ints[49];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[13];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[49];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[26];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Strings[0];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[1];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[3];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[54];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[33];
+	HudStateStack[ACSUtils_Ints[36]++] = ACSUtils_Ints[10];
 	
-	if (ACSUtils_Ints[28] > ACSUTILS_HUDLIB_STACKSIZE)
+	if (ACSUtils_Ints[36] > ACSUTILS_HUDLIB_STACKSIZE)
 		ACSUtils_LimitError("HudPushState(): state stack overflow.");
 }
 
 function void HudPopState(void)
 {
-	if (ACSUtils_Ints[28] == 0)
+	if (ACSUtils_Ints[36] == 0)
 	{
 		ACSUtils_ProgramError("HudPopState() called with no saved state.");
 		return;
 	}
 
-	ACSUtils_Ints[49] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[6] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[39] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[27] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[48] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Strings[0] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[11] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[0] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[2] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[10] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[33] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[54] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[3] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[1] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Strings[0] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[26] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[49] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[13] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[19] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[27] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[20] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[54] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[40] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[34] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[50] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[24] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[16] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[1] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[25] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[39] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[37] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[15] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[10] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[48] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[6] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[5] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[41] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[37] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[52] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[31] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[51] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[30] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[44] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[53] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[18] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[41] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[29] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[36] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[50] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[45] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[46] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[23] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[8] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[9] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[17] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[42] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[23] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[14] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[21] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[12] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[12] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[18] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[34] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[20] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[15] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[32] = HudStateStack[--ACSUtils_Ints[36]];
 
-	ACSUtils_Ints[45] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[13] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[17] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[33] = HudStateStack[--ACSUtils_Ints[28]];
-	ACSUtils_Ints[4] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[11] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[28] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[40] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[9] = HudStateStack[--ACSUtils_Ints[36]];
+	ACSUtils_Ints[19] = HudStateStack[--ACSUtils_Ints[36]];
 
 
-	ACSUtils_Ints[43] = HudStateStack[--ACSUtils_Ints[28]];
+	ACSUtils_Ints[52] = HudStateStack[--ACSUtils_Ints[36]];
 	
-	if (ACSUtils_Ints[28] < 0)
+	if (ACSUtils_Ints[36] < 0)
 		ACSUtils_ProgramError("HudPushState/HudPopState are bugged. Report this bug to the acsutils project.");
 }
 
 function void HudSetCameraPosition(int x, int y, int z)
 {
-	ACSUtils_Ints[4] = x;
-	ACSUtils_Ints[33] = y;
-	ACSUtils_Ints[17] = z;
+	ACSUtils_Ints[19] = x;
+	ACSUtils_Ints[9] = y;
+	ACSUtils_Ints[40] = z;
 }
 
 function void HudSetCameraAngles(int angle, int pitch)
 {
-	ACSUtils_Ints[13] = angle;
-	ACSUtils_Ints[45] = pitch;
+	ACSUtils_Ints[28] = angle;
+	ACSUtils_Ints[11] = pitch;
 }
 
 function void HudSetCameraVector(int x, int y, int z)
 {
 	VectorToAngles(x, y, z);
-	ACSUtils_Ints[13] = r1;
-	ACSUtils_Ints[45] = r2;
+	ACSUtils_Ints[28] = r1;
+	ACSUtils_Ints[11] = r2;
 }
 
 
@@ -3982,115 +3998,115 @@ function void HudSetCameraActor(int tid)
 
 function void HudSetPoint3D(int x, int y, int z)
 {
-	ACSUtils_Ints[43] = true;
-	ACSUtils_Ints[34] = x;
-	ACSUtils_Ints[18] = y;
-	ACSUtils_Ints[12] = z;
+	ACSUtils_Ints[52] = true;
+	ACSUtils_Ints[32] = x;
+	ACSUtils_Ints[15] = y;
+	ACSUtils_Ints[20] = z;
 }
 
 function void HudSet2DOffset(int x, int y)
 {
-	ACSUtils_Ints[14] = x;
-	ACSUtils_Ints[23] = y;
+	ACSUtils_Ints[12] = x;
+	ACSUtils_Ints[21] = y;
 }
 
 function void HudSetAutoDistanceScale(bool autoDistanceScale)
 {
-	ACSUtils_Ints[9] = autoDistanceScale;
+	ACSUtils_Ints[42] = autoDistanceScale;
 }
 
 function void HudSetProjectionMode(int mode)
 {
-	ACSUtils_Ints[8] = mode;
+	ACSUtils_Ints[17] = mode;
 }
 
 function void HudSetVirtualSize(int width, int height)
 {
-	ACSUtils_Ints[50] = width;
-	ACSUtils_Ints[36] = height;
+	ACSUtils_Ints[23] = width;
+	ACSUtils_Ints[46] = height;
 }
 
 function void HudUseDefaultSize(void)
 {
-	ACSUtils_Ints[50] = 640.0;
-	ACSUtils_Ints[36] = 480.0;
+	ACSUtils_Ints[23] = 640.0;
+	ACSUtils_Ints[46] = 480.0;
 }
 
 function void HudUseRealSize(void)
 {
-	ACSUtils_Ints[50] = (GetScreenWidth()<<16);
-	ACSUtils_Ints[36] = (GetScreenHeight()<<16);
+	ACSUtils_Ints[23] = (GetScreenWidth()<<16);
+	ACSUtils_Ints[46] = (GetScreenHeight()<<16);
 }
 
 function int HudBorderX(void)
 {
-	return HudBorderXFor(ACSUtils_Ints[50]);
+	return HudBorderXFor(ACSUtils_Ints[23]);
 }
 
 function int HudBorderY(void)
 {
-	return HudBorderXFor(ACSUtils_Ints[36]);
+	return HudBorderXFor(ACSUtils_Ints[46]);
 }
 
 function int HudLeft(void)
 {
-	return HudLeftFor(ACSUtils_Ints[50]);
+	return HudLeftFor(ACSUtils_Ints[23]);
 }
 function int HudX1(void)
 {
-	return HudX1For(ACSUtils_Ints[50]);
+	return HudX1For(ACSUtils_Ints[23]);
 }
 
 function int HudRight(void)
 {
-	return HudRightFor(ACSUtils_Ints[50]);
+	return HudRightFor(ACSUtils_Ints[23]);
 }
 function int HudX2(void)
 {
-	return HudX2For(ACSUtils_Ints[50]);
+	return HudX2For(ACSUtils_Ints[23]);
 }
 
 function int HudTop(void)
 {
-	return HudTopFor(ACSUtils_Ints[36]);
+	return HudTopFor(ACSUtils_Ints[46]);
 }
 function int HudY1(void)
 {
-	return HudY1For(ACSUtils_Ints[36]);
+	return HudY1For(ACSUtils_Ints[46]);
 }
 
 function int HudBottom(void)
 {
-	return HudBottomFor(ACSUtils_Ints[36]);
+	return HudBottomFor(ACSUtils_Ints[46]);
 }
 function int HudY2(void)
 {
-	return HudY2For(ACSUtils_Ints[36]);
+	return HudY2For(ACSUtils_Ints[46]);
 }
 
 function void HudSetExcludeStatusBar(bool exclude)
 {
-	ACSUtils_Ints[29] = exclude;
+	ACSUtils_Ints[45] = exclude;
 }
 
 function void HudSetPoint(int x, int y)
 {
-	ACSUtils_Ints[43] = false;
-	ACSUtils_Ints[53] = x;
-	ACSUtils_Ints[44] = y;
+	ACSUtils_Ints[52] = false;
+	ACSUtils_Ints[41] = x;
+	ACSUtils_Ints[18] = y;
 }
 
 function void HudSetScaleXY(int scaleX, int scaleY)
 {
 	if (scaleX != 0.0)
-		ACSUtils_Ints[31] = FixedDiv(1.0, scaleX);
+		ACSUtils_Ints[30] = FixedDiv(1.0, scaleX);
 	else
-		ACSUtils_Ints[31] = 0.0;
+		ACSUtils_Ints[30] = 0.0;
 	
 	if (scaleY != 0.0)
-		ACSUtils_Ints[52] = FixedDiv(1.0, scaleY);
+		ACSUtils_Ints[51] = FixedDiv(1.0, scaleY);
 	else
-		ACSUtils_Ints[52] = 0.0;
+		ACSUtils_Ints[51] = 0.0;
 }
 
 function void HudSetScale(int scale)
@@ -4100,64 +4116,64 @@ function void HudSetScale(int scale)
 
 function void HudSetInvScale(int invScale)
 {
-	ACSUtils_Ints[31] = invScale;
-	ACSUtils_Ints[52] = invScale;
+	ACSUtils_Ints[30] = invScale;
+	ACSUtils_Ints[51] = invScale;
 }
 
 function void HudSetInvScaleXY(int invScaleX, int invScaleY)
 {
-	ACSUtils_Ints[31] = invScaleX;
-	ACSUtils_Ints[52] = invScaleY;
+	ACSUtils_Ints[30] = invScaleX;
+	ACSUtils_Ints[51] = invScaleY;
 }
 
 function void HudSetShowToEveryone(bool showToEveryone)
 {
-	ACSUtils_Ints[41] = showToEveryone;
+	ACSUtils_Ints[37] = showToEveryone;
 }
 
 function void HudSetAppearTime(int appearTime)
 {
-	ACSUtils_Ints[10] = appearTime;
+	ACSUtils_Ints[5] = appearTime;
 }
 
 function void HudSetStayTime(int stayTime)
 {
-	ACSUtils_Ints[15] = stayTime;
+	ACSUtils_Ints[6] = stayTime;
 }
 
 function void HudSetDisappearTime(int disappearTime)
 {
-	ACSUtils_Ints[37] = disappearTime;
+	ACSUtils_Ints[48] = disappearTime;
 }
 
 function void HudSetBlendStyle(int style)
 {
-	ACSUtils_Ints[1] = style;
+	ACSUtils_Ints[39] = style;
 }
 
 function void HudSetAlpha(int alpha)
 {
-	ACSUtils_Ints[16] = alpha;
+	ACSUtils_Ints[25] = alpha;
 }
 
 function void HudSetShowIn3DView(bool show)
 {
-	ACSUtils_Ints[40] = show;
+	ACSUtils_Ints[24] = show;
 }
 
 function void HudSetShowOnFullAutomap(bool show)
 {
-	ACSUtils_Ints[54] = show;
+	ACSUtils_Ints[50] = show;
 }
 
 function void HudSetShowOnOverlayAutomap(bool show)
 {
-	ACSUtils_Ints[20] = show;
+	ACSUtils_Ints[34] = show;
 }
 
 function void HudSetLayer(int layer)
 {
-	ACSUtils_Ints[19] = layer;
+	ACSUtils_Ints[27] = layer;
 }
 
 function void HudSetFont(str font)
@@ -4167,78 +4183,94 @@ function void HudSetFont(str font)
 
 function void HudSetTextColor(int textColor)
 {
-	ACSUtils_Ints[48] = false;
-	ACSUtils_Ints[27] = textColor;
+	ACSUtils_Ints[1] = false;
+	ACSUtils_Ints[3] = textColor;
 }
 
 function void HudSetTextColorString(str textColor)
 {
-	ACSUtils_Ints[48] = true;
-	ACSUtils_Ints[27] = textColor;
+	ACSUtils_Ints[1] = true;
+	ACSUtils_Ints[3] = textColor;
 }
 
 function void HudSetCenterText(bool centerText)
 {
-	ACSUtils_Ints[11] = centerText;
+	ACSUtils_Ints[26] = centerText;
 }
 
 function void HudSetAlignment(int alignX, int alignY)
 {
-	ACSUtils_Ints[2] = alignX;
-	ACSUtils_Ints[0] = alignY;
+	ACSUtils_Ints[13] = alignX;
+	ACSUtils_Ints[49] = alignY;
+}
+
+function void HudSetAlign(int alignX, int alignY)
+{
+	ACSUtils_Ints[13] = alignX;
+	ACSUtils_Ints[49] = alignY;
 }
 
 function void HudSetAlignmentX(int alignX)
 {
-	ACSUtils_Ints[2] = alignX;
+	ACSUtils_Ints[13] = alignX;
+}
+
+function void HudSetAlignX(int alignX)
+{
+	ACSUtils_Ints[13] = alignX;
 }
 
 function void HudSetAlignmentY(int alignY)
 {
-	ACSUtils_Ints[0] = alignY;
+	ACSUtils_Ints[49] = alignY;
+}
+
+function void HudSetAlignY(int alignY)
+{
+	ACSUtils_Ints[49] = alignY;
 }
 
 function void HudSetTextTypeOn(bool textTypeOn)
 {
-	ACSUtils_Ints[39] = textTypeOn;
+	ACSUtils_Ints[54] = textTypeOn;
 }
 
 function void HudSetLogMessage(bool logMessage)
 {
-	ACSUtils_Ints[6] = logMessage;
+	ACSUtils_Ints[33] = logMessage;
 }
 
 function void HudSetWordWrap(bool wordWrap)
 {
-	ACSUtils_Ints[49] = wordWrap;
+	ACSUtils_Ints[10] = wordWrap;
 }
 
-//int ACSUtils_Ints[47];
-//int ACSUtils_Ints[25];
-//int ACSUtils_Ints[38];
+//int ACSUtils_Ints[14];
+//int ACSUtils_Ints[44];
+//int ACSUtils_Ints[22];
 
 function bool ACSUtils_IsYShearing(void)
 {
-	if (ACSUtils_Ints[8] == HUD_PROJECTION_AUTO)
+	if (ACSUtils_Ints[17] == HUD_PROJECTION_AUTO)
 		return !IsOpenGL();
 	
-	return ACSUtils_Ints[8] == HUD_PROJECTION_YSHEARING;
+	return ACSUtils_Ints[17] == HUD_PROJECTION_YSHEARING;
 }
 
 // Rotate 3D point to view coordinate system.
 function void ACSUtils_HudRotate3DPoint(void)
 {
 	// Translated point coordinates.
-	int x = ACSUtils_Ints[34] - ACSUtils_Ints[4];
-	int y = ACSUtils_Ints[18] - ACSUtils_Ints[33];
-	int z = ACSUtils_Ints[12] - ACSUtils_Ints[17];
+	int x = ACSUtils_Ints[32] - ACSUtils_Ints[19];
+	int y = ACSUtils_Ints[15] - ACSUtils_Ints[9];
+	int z = ACSUtils_Ints[20] - ACSUtils_Ints[40];
 
 	int rx, ry, rz;
 	int s, c;
 
 	// Rotate around Z axis.
-	s = sin(-ACSUtils_Ints[13]);
-	c = cos(-ACSUtils_Ints[13]);
+	s = sin(-ACSUtils_Ints[28]);
+	c = cos(-ACSUtils_Ints[28]);
 	rx = FixedMul(x, c) - FixedMul(y, s);
 	ry = FixedMul(x, s) + FixedMul(y, c);
 	x = rx; y = ry;
@@ -4246,22 +4278,22 @@ function void ACSUtils_HudRotate3DPoint(void)
 	// Rotate around Y axis.
 	if (!ACSUtils_IsYShearing())
 	{
-		s = sin(-ACSUtils_Ints[45]);
-		c = cos(-ACSUtils_Ints[45]);
+		s = sin(-ACSUtils_Ints[11]);
+		c = cos(-ACSUtils_Ints[11]);
 		rx = FixedMul(x, c) - FixedMul(z, s);
 		rz = FixedMul(x, s) + FixedMul(z, c);
 		x = rx; z = rz;
 	}
 
-	ACSUtils_Ints[47] = x;
-	ACSUtils_Ints[25] = y;
-	ACSUtils_Ints[38] = z;
+	ACSUtils_Ints[14] = x;
+	ACSUtils_Ints[44] = y;
+	ACSUtils_Ints[22] = z;
 }
 
 function int HudGetDistance(void)
 {
 	ACSUtils_HudRotate3DPoint();
-	return ACSUtils_Ints[47];
+	return ACSUtils_Ints[14];
 }
 
 
@@ -4269,33 +4301,33 @@ function int HudGetDistance(void)
 
 function void ACSUtils_HudDrawHudMessage(int id, int type, str text, bool isText)
 {
-	if (ACSUtils_Ints[31] == 0 || ACSUtils_Ints[52] == 0)
+	if (ACSUtils_Ints[30] == 0 || ACSUtils_Ints[51] == 0)
 		return;
 
-	type |= ACSUtils_Ints[19];
-	if (!ACSUtils_Ints[40])
+	type |= ACSUtils_Ints[27];
+	if (!ACSUtils_Ints[24])
 		type |= HUDMSG_NOTWITH3DVIEW;
-	if (!ACSUtils_Ints[54])
+	if (!ACSUtils_Ints[50])
 		type |= HUDMSG_NOTWITHFULLMAP;
-	if (!ACSUtils_Ints[20])
+	if (!ACSUtils_Ints[34])
 		type |= HUDMSG_NOTWITHOVERLAYMAP;
 	
-	if (ACSUtils_Ints[1] == HUD_BLENDSTYLE_ADDITIVE)
+	if (ACSUtils_Ints[39] == HUD_BLENDSTYLE_ADDITIVE)
 		type |= HUDMSG_ADDBLEND;
-	else if (ACSUtils_Ints[16] != 1.0)
+	else if (ACSUtils_Ints[25] != 1.0)
 		type |= HUDMSG_ALPHA;
 
-	int x = ACSUtils_Ints[53];
-	int y = ACSUtils_Ints[44];
-	int iScaleX = ACSUtils_Ints[31];
-	int iScaleY = ACSUtils_Ints[52];
+	int x = ACSUtils_Ints[41];
+	int y = ACSUtils_Ints[18];
+	int iScaleX = ACSUtils_Ints[30];
+	int iScaleY = ACSUtils_Ints[51];
 	
-	if (ACSUtils_Ints[43])
+	if (ACSUtils_Ints[52])
 	{
 		ACSUtils_HudRotate3DPoint();
 
 		// Check if point is behind the camera.
-		if (ACSUtils_Ints[47] <= 0)
+		if (ACSUtils_Ints[14] <= 0)
 		{
 			ClearHudMessage(id);
 			return;
@@ -4307,62 +4339,62 @@ function void ACSUtils_HudDrawHudMessage(int id, int type, str text, bool isText
 			yFactor = 1.9;
 
 		// Half heights.
-		int hw = ((ACSUtils_Ints[50]) / 2);
-		int hh = ((ACSUtils_Ints[36]) / 2);
+		int hw = ((ACSUtils_Ints[23]) / 2);
+		int hh = ((ACSUtils_Ints[46]) / 2);
 
 		// Project point.
-		x = -FixedDiv(ACSUtils_Ints[25], ACSUtils_Ints[47]);
-		y = -FixedDiv(ACSUtils_Ints[38], ACSUtils_Ints[47]);
+		x = -FixedDiv(ACSUtils_Ints[44], ACSUtils_Ints[14]);
+		y = -FixedDiv(ACSUtils_Ints[22], ACSUtils_Ints[14]);
 		
 		if (ACSUtils_IsYShearing())
-			y += tan(ACSUtils_Ints[45]);
+			y += tan(ACSUtils_Ints[11]);
 		
 		// Postprocess projected point.
-		x += ACSUtils_Ints[14] + hw + FixedMul(hw, x);
-		y += ACSUtils_Ints[23] + hh + FixedMul(FixedMul(hh, yFactor), y);
+		x += ACSUtils_Ints[12] + hw + FixedMul(hw, x);
+		y += ACSUtils_Ints[21] + hh + FixedMul(FixedMul(hh, yFactor), y);
 		
-		if (ACSUtils_Ints[9])
+		if (ACSUtils_Ints[42])
 		{
-			iScaleX = FixedMul(iScaleX, ACSUtils_Ints[47] / CAMERA_BASE_DISTANCE);
-			iScaleY = FixedMul(iScaleY, ACSUtils_Ints[47] / CAMERA_BASE_DISTANCE);
+			iScaleX = FixedMul(iScaleX, ACSUtils_Ints[14] / CAMERA_BASE_DISTANCE);
+			iScaleY = FixedMul(iScaleY, ACSUtils_Ints[14] / CAMERA_BASE_DISTANCE);
 		}
 	}
 	
-	int w = FixedMul(ACSUtils_Ints[50], iScaleX);
-	int h = FixedMul(ACSUtils_Ints[36], iScaleY);
-	SetHudSize(itrunc(w), itrunc(h), !(ACSUtils_Ints[43] || ACSUtils_Ints[29]));
+	int w = FixedMul(ACSUtils_Ints[23], iScaleX);
+	int h = FixedMul(ACSUtils_Ints[46], iScaleY);
+	SetHudSize(itrunc(w), itrunc(h), !(ACSUtils_Ints[52] || ACSUtils_Ints[45]));
 	
 	x = trunc(FixedMul(x, iScaleX));
 	y = trunc(FixedMul(y, iScaleY));
 	
-	if (ACSUtils_Ints[2] == HUD_ALIGN_LEFT)
+	if (ACSUtils_Ints[13] == HUD_ALIGN_LEFT)
 		x += 0.1;
-	else if (ACSUtils_Ints[2] == HUD_ALIGN_RIGHT)
+	else if (ACSUtils_Ints[13] == HUD_ALIGN_RIGHT)
 		x += 0.2;
 		
-	if (ACSUtils_Ints[0] == HUD_ALIGN_TOP)
+	if (ACSUtils_Ints[49] == HUD_ALIGN_TOP)
 		y += 0.1;
-	else if (ACSUtils_Ints[0] == HUD_ALIGN_BOTTOM)
+	else if (ACSUtils_Ints[49] == HUD_ALIGN_BOTTOM)
 		y += 0.2;
 		
-	if (ACSUtils_Ints[11])
+	if (ACSUtils_Ints[26])
 		x += 0.4;
 	
 	// BUG: this really simplifies the code, but the messages will only stay
 	// for 9 hours.
-	int stayTime = ACSUtils_Ints[15];
+	int stayTime = ACSUtils_Ints[6];
 	if (stayTime < 0.0)
 		stayTime = FIXED_MAX;
 	
-	if (ACSUtils_Ints[41])
+	if (ACSUtils_Ints[37])
 	{
 		HudMessageBold(s:text;
 			type,
 			id,
-			ACSUtils_Ints[27],
+			ACSUtils_Ints[3],
 			x, y,
-			stayTime, ACSUtils_Ints[10], ACSUtils_Ints[37],
-			ACSUtils_Ints[16]
+			stayTime, ACSUtils_Ints[5], ACSUtils_Ints[48],
+			ACSUtils_Ints[25]
 		);
 	}
 	else
@@ -4370,10 +4402,10 @@ function void ACSUtils_HudDrawHudMessage(int id, int type, str text, bool isText
 		HudMessage(s:text;
 			type,
 			id,
-			ACSUtils_Ints[27],
+			ACSUtils_Ints[3],
 			x, y,
-			stayTime, ACSUtils_Ints[10], ACSUtils_Ints[37],
-			ACSUtils_Ints[16]
+			stayTime, ACSUtils_Ints[5], ACSUtils_Ints[48],
+			ACSUtils_Ints[25]
 		);
 	}
 }
@@ -4381,14 +4413,14 @@ function void ACSUtils_HudDrawHudMessage(int id, int type, str text, bool isText
 function void HudDrawText(int id, str text)
 {
 	int type = HUDMSG_FADEINOUT;
-	if (ACSUtils_Ints[10] > 0 && ACSUtils_Ints[39])
+	if (ACSUtils_Ints[5] > 0 && ACSUtils_Ints[54])
 		type = HUDMSG_TYPEON;
 	
-	if (ACSUtils_Ints[6])
+	if (ACSUtils_Ints[33])
 		type |= HUDMSG_LOG;
-	if (ACSUtils_Ints[48])
+	if (ACSUtils_Ints[1])
 		type |= HUDMSG_COLORSTRING;
-	if (!ACSUtils_Ints[49])
+	if (!ACSUtils_Ints[10])
 		type |= HUDMSG_NOWRAP;
 
 	SetFont(ACSUtils_Strings[0]);
