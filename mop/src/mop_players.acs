@@ -11,9 +11,9 @@ int Players[MAX_PLAYERS][P_NUM_PROPERTIES];
 function int PlayerTid(int player) { return TID_PLAYER + player; }
 function bool PlayerIsPossessed(int player) { return CheckActorInventory(PlayerTid(player), "MOPIsPossessed"); }
 
-function bool IsPossessed(void) { return CheckInventory("MOPIsPossessed"); }
-function bool IsMarine(void) { return PlayerTeam() == TEAM_MARINES; }
-function bool IsPuppetmaster(void) { return PlayerTeam() == TEAM_MOPS; }
+function bool IsPossessed(void)    { return PlayerInGame(0) && CheckInventory("MOPIsPossessed"); }
+function bool IsMarine(void)       { return PlayerInGame(0) && PlayerTeam() == TEAM_MARINES; }
+function bool IsPuppetmaster(void) { return PlayerInGame(0) && PlayerTeam() == TEAM_MOPS; }
 
 // Functions
 function void SetSpawnPoint(int player, int x, int y, int z, int angle)
