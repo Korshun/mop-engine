@@ -178,7 +178,7 @@ script "mopsc_possess" (void)
 		SetUserVariable(tid, MonsterUserVarName(uservar), PossessedUserVars[player][uservar]);
 	
 	// Transfer health.
-	SetActorProperty(tid, APROP_HEALTH, hp1 - POSSESSED_ADDITIONAL_HP/*FixedDiv((hp1 - POSSESSED_ADDITIONAL_HP) * 1.0, DamageFactor) / 1.0*/);
+	SetActorHealth(tid, hp1 - POSSESSED_ADDITIONAL_HP/*FixedDiv((hp1 - POSSESSED_ADDITIONAL_HP) * 1.0, DamageFactor) / 1.0*/);
 	if (PlayerInGame(player))
 		Thing_Damage(tid, hp1 - hp2, 0);
 	

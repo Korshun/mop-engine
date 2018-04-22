@@ -3,7 +3,7 @@ script "mopsc_monsterinfohud" (void)
 	int prev_type = -1;
 	int prev_hp = -1;
 	
-	while (PlayerInGame(PlayerNumber()) && IsAlive() && IsPuppetmaster())
+	while (IsAlive() && IsPuppetmaster())
 	{
 		if (IsPossessed())
 		{
@@ -58,7 +58,7 @@ script "mopsc_monsterinfohud" (void)
 		{
 			name = MonsterName(type);
 		}
-		int hp = GetActorProperty(0, APROP_HEALTH);
+		int hp = GetActorHealth(0);
 		
 		SetActivator(PlayerTid(player));
 		if (prev_hp != hp || prev_type != type)

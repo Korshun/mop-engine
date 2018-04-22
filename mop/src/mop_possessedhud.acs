@@ -4,13 +4,13 @@ script "mopsc_possessed_hud" (int monster, int spawnhp) CLIENTSIDE
 	if (ConsolePlayerNumber() != PlayerNumber())
 		terminate;
 
-	while (PlayerInGame(PlayerNumber()) && GetActorProperty(0, APROP_HEALTH) > POSSESSED_ADDITIONAL_HP)
+	while (IsAlive() && GetActorHealth(0) > POSSESSED_ADDITIONAL_HP)
 	{
 		// Ripped from MOP-X.
 		SetHUDSize(400,300,0);
 		SetFont("SMALLFONT");
 		HUDMessage(
-			i:GetActorProperty(0,APROP_HEALTH) - POSSESSED_ADDITIONAL_HP,
+			i:GetActorHealth(0) - POSSESSED_ADDITIONAL_HP,
 			s:"/",
 			i:spawnhp;
 			HUDMSG_PLAIN, 0, CR_RED, 50.0, 280.0, 0.03
