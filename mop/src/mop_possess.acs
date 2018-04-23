@@ -17,29 +17,10 @@ script "mopsc_possess" (void)
 	if (!IsAlive() || monster == -1)
 		terminate;
 	
-	str cvar = "mop_minfrags";
-	if (MonsterIsLegendary(monster))
-		cvar = StrAdd(cvar, "_legendary");
-	if (MonsterIsBoss(monster))
-		cvar = StrAdd(cvar, "_boss");
-	
-	if (!StrEquals(cvar, "mop_minfrags"))
-	{
-		int frags = GetCVar(cvar);
-		if (PlayerFrags() < frags)
-		{
-			str what;
-			if (MonsterIsLegendary(monster) && MonsterIsBoss(monster))
-				what = "\chlegendary \cgbossess";
-			else if (MonsterIsLegendary(monster))
-				what = "\chlegendary monsters";
-			else
-				what = "\cgboss monsters";
-			
-			SetActivator(PlayerTid(player));
-			print(s:"You need at least ", d:frags, s:" frags to possess ", s:what, s:".");
+	if (CallbackIsSet(CALLBACK_POSSESS_ATTEMPT))
+	{	
+		if (!CallCallback(CALLBACK_POSSESS_ATTEMPT, player, monster, 0, 0))
 			terminate;
-		}
 	}
 	
 	// Save actor properties and items

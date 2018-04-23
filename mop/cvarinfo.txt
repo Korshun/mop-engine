@@ -12,10 +12,6 @@ server bool 	mop_alwayssecretexit = false; // Always perform a secret exit.
 // Losing on MAP01 restarts MAP01.
 server bool		mop_prevmaponlose = false;
 
-server int 		mop_minfrags_boss = 3;
-server int 		mop_minfrags_legendary = 3;
-server int 		mop_minfrags_legendary_boss = 3;
-
 user bool 	mop_cl_icons = true; // show icons on the game hud
 
 // Debug mode

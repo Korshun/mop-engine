@@ -35,7 +35,7 @@ script "mopsc_monsterinfohud" (void)
 		}
 		
 		int type = IdentifyMonster(0);
-		int color = cond(MonsterIsLegendary(type), CR_BLUE, CR_RED);
+		int color = CR_RED;
 		str name = 0;
 		if (type == -1)
 		{

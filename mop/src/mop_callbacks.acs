@@ -1,19 +1,25 @@
 #define CALLBACK_POSSESS 0
-#define NUM_CALLBACKS 1
+#define CALLBACK_POSSESS_ATTEMPT 1
+#define NUM_CALLBACKS 2
 
-bool CallbackIsSet[NUM_CALLBACKS];
-str CallbackScriptName[NUM_CALLBACKS];
+bool CBIsSet[NUM_CALLBACKS];
+str CBScriptName[NUM_CALLBACKS];
+
+function bool CallbackIsSet(int callback)
+{
+	return CBIsSet[callback];
+}
 
 function void SetCallback(int callback, str scriptname)
 {
-	CallbackIsSet[callback] = true;
-	CallbackScriptName[callback] = scriptname;
+	CBIsSet[callback] = true;
+	CBScriptName[callback] = scriptname;
 }
 
 function int CallCallback(int callback, int arg1, int arg2, int arg3, int arg4)
 {
-	if (CallbackIsSet[callback])
-		return ACS_NamedExecuteWithResult(CallbackScriptName[callback], arg1, arg2, arg3, arg4);
+	if (CBIsSet[callback])
+		return ACS_NamedExecuteWithResult(CBScriptName[callback], arg1, arg2, arg3, arg4);
 	return 0;
 }
 
@@ -21,4 +27,9 @@ function int CallCallback(int callback, int arg1, int arg2, int arg3, int arg4)
 function void MOPOnPossess(str scriptname)
 {
 	SetCallback(CALLBACK_POSSESS, scriptname);
+}
+
+function void MOPOnPossessAttempt(str scriptname)
+{
+	SetCallback(CALLBACK_POSSESS_ATTEMPT, scriptname);
 }

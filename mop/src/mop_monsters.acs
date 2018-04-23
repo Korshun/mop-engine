@@ -1,20 +1,19 @@
 #define M_ActorName 0
 #define M_Name 1
 #define M_Power 2
-#define M_Tier 3
-#define M_EvadeSpeed 4
-#define M_Category 5
-#define M_IsFlying 6
-#define M_IsBoss 7
-#define M_IsCounted 8
-#define M_ItemsBegin 9
-#define M_ItemsEnd 10
-#define M_AttacksBegin 11
-#define M_AttacksEnd 12
-#define M_Icon 13
-#define M_VarsBegin 14
-#define M_VarsEnd 15
-#define M_NUM_PROPERTIES 16
+#define M_EvadeSpeed 3
+#define M_Category 4
+#define M_IsFlying 5
+#define M_IsBoss 6
+#define M_IsCounted 7
+#define M_ItemsBegin 8
+#define M_ItemsEnd 9
+#define M_AttacksBegin 10
+#define M_AttacksEnd 11
+#define M_Icon 12
+#define M_VarsBegin 13
+#define M_VarsEnd 14
+#define M_NUM_PROPERTIES 15
 
 #define MI_ActorName 0
 #define MI_NUM_PROPERTIES 1
@@ -25,17 +24,18 @@
 #define MA_Name 0
 #define MA_NUM_PROPERTIES 1
 
-#define TIER_NORMAL 0
-#define TIER_LEGENDARY 1
-
 #define MAX_MONSTERS 500
 #define MAX_MONSTER_ITEMS 100
 #define MAX_MONSTER_VARS 100
 #define MAX_MONSTER_ATTACKS 500
+#define MAX_CUSTOM_PROPERTIES 10
 
 int Monsters[MAX_MONSTERS][M_NUM_PROPERTIES];
 int NumMonsters = 0;
 int CurrentCategory = "";
+
+int MonsterCustomProps[MAX_MONSTERS][MAX_CUSTOM_PROPERTIES];
+int MonsterCustomPropDefaults[MAX_CUSTOM_PROPERTIES];
 
 int MonsterItems[MAX_MONSTER_ITEMS][MI_NUM_PROPERTIES];
 int NumMonsterItems = 0;
@@ -51,6 +51,11 @@ function void BeginCategory(str category)
 	CurrentCategory = category;
 }
 
+function void SetMonsterPropDefault(int prop, int value)
+{
+	MonsterCustomPropDefaults[prop] = value;
+}
+
 function void AddMonster(int power, str icon, str actorname, str name)
 {
 	if (NumMonsters >= MAX_MONSTERS)
@@ -59,7 +64,6 @@ function void AddMonster(int power, str icon, str actorname, str name)
 	Monsters[NumMonsters][M_ActorName] = actorname;
 	Monsters[NumMonsters][M_Name] = name;
 	Monsters[NumMonsters][M_Power] = power;
-	Monsters[NumMonsters][M_Tier] = TIER_NORMAL;
 	Monsters[NumMonsters][M_EvadeSpeed] = 0;
 	Monsters[NumMonsters][M_Category] = CurrentCategory;
 	Monsters[NumMonsters][M_IsFlying] = false;
@@ -72,14 +76,15 @@ function void AddMonster(int power, str icon, str actorname, str name)
 	Monsters[NumMonsters][M_AttacksEnd] = NumMonsterAttacks;
 	Monsters[NumMonsters][M_VarsBegin] = NumMonsterVars;
 	Monsters[NumMonsters][M_VarsEnd] = NumMonsterVars;
+	
+	for (int prop = 0; prop < MAX_CUSTOM_PROPERTIES; prop++)
+		MonsterCustomProps[NumMonsters][prop] = MonsterCustomPropDefaults[prop];
+	
 	NumMonsters++;
 }
 
-function void AddSpawnedMonster(str icon, str actorname, str name)
-{
-	AddMonster(0, icon, actorname, name);
-}
 
+// Monster lists
 function void AddMonsterItem(str actorname)
 {
 	if (NumMonsterItems >= MAX_MONSTER_ITEMS)
@@ -100,7 +105,6 @@ function void AddMonsterUserVar(str name)
 	NumMonsterVars++;
 }
 
-
 function void AddMonsterAttack(str name)
 {
 	if (NumMonsterAttacks >= MAX_MONSTER_ATTACKS)
@@ -111,16 +115,8 @@ function void AddMonsterAttack(str name)
 	NumMonsterAttacks++;
 }
 
-function void BossMonster(void)
-{
-	Monsters[NumMonsters - 1][M_IsBoss] = true;
-}
 
-function void LegendaryMonster(void)
-{
-	Monsters[NumMonsters - 1][M_Tier] = TIER_LEGENDARY;
-}
-
+// Monster flags
 function void FlyingMonster(void)
 {
 	Monsters[NumMonsters - 1][M_IsFlying] = true;
@@ -136,14 +132,25 @@ function void NotCountedAsAMonster(void)
 	Monsters[NumMonsters - 1][M_IsCounted] = false;
 }
 
+
+// Monster custom properties
+function int MonsterProp(int monster, int prop)
+{
+	return MonsterCustomProps[monster][prop];
+}
+
+function void SetMonsterProp(int prop, int value)
+{
+	MonsterCustomProps[NumMonsters - 1][prop] = value;
+}
+
+
 // Accessors
 function str MonsterName(int monster) { return Monsters[monster][M_Name]; }
 function str MonsterActorname(int monster) { return Monsters[monster][M_ActorName]; }
 function str MonsterPossessedActorName(int monster) { return StrParam(s:"Possessed", s:MonsterActorName(monster)); }
 function str MonsterWeaponActorName(int monster) { return StrParam(s:MonsterActorName(monster), s:"Weapon"); }
 function int MonsterPower(int monster) { return Monsters[monster][M_Power]; }
-function bool MonsterIsBoss(int monster) { return Monsters[monster][M_IsBoss]; }
-function bool MonsterIsLegendary(int monster) { return Monsters[monster][M_Tier] == TIER_LEGENDARY; }
 function bool MonsterHasEvade(int monster) { return Monsters[monster][M_EvadeSpeed] >= 0; }
 function int MonsterEvadeSpeed(int monster) { return Monsters[monster][M_EvadeSpeed]; }
 function bool MonsterIsFlying(int monster) { return Monsters[monster][M_IsFlying]; }

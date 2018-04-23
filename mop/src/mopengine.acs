@@ -7,8 +7,6 @@
 function void AddMonster(int power, str icon, str actorname, str name) {}
 
 // Monster flags for AddMonster
-function void BossMonster(void) {}
-function void LegendaryMonster(void) {}
 function void FlyingMonster(void) {}
 function void EvadingMonster(int speed) {}
 function void NotCountedAsAMonster(void) {}
@@ -26,5 +24,11 @@ function str MonsterName(int monster) {}
 function str MonsterActorName(int monster) {}
 
 // Callbacks
+function void MOPOnPossessAttempt(str scriptname) {}
 function void MOPOnPossess(str scriptname) {}
-function void MOPOnPossessNum(int scriptnum) {}
+
+// Custom properties
+function void SetMonsterPropDefault(int property, int value) {}
+function void SetMonsterProp(int property, int value) {}
+function int MonsterProp(int monster, int property) {}
+function int MaxCustomProperties(void) {}
